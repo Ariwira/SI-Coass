@@ -52,7 +52,7 @@
                                 <?php if (empty($students)): ?>
                                     <tr>
                                         <td colspan="6" class="text-center py-4">
-                                            <p class="text-md mb-0">Tidak ada data logbook yang ditemukan</p>
+                                            <p class="text-md mb-0">Tidak ada data mahasiswa yang ditemukan</p>
                                         </td>
                                     </tr>
                                 <?php else: ?>
@@ -79,7 +79,7 @@
                                                         <?php endif; ?>
                                                     </div>
                                                     <div class="d-flex flex-column justify-content-center">
-                                                        <h6 class="mb-0 text-sm"><?= esc($student['name']) ?></h6>
+                                                        <h6 class="mb-0 text-sm text-wrap"><?= esc($student['name']) ?></h6>
                                                     </div>
                                                 </div>
                                             </td>
@@ -95,19 +95,10 @@
                                             <td>
                                                 <p class="text-xs font-weight-bold mb-0"><?= esc($totals['total_not_verified']); ?></p>
                                             </td>
-                                            <td class="pe-4 text-center position-relative">
-                                                <div class="dropdown">
-                                                    <button style="all: unset;" class="" type="button" id="dropdownMenuButton<?= esc($encryptedID) ?>" data-bs-toggle="dropdown" aria-label="edit button" aria-expanded="false">
-                                                        <i class="fa-solid fa-ellipsis-vertical" style="width: 48px;"></i>
-                                                    </button>
-                                                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton<?= esc($encryptedID) ?>">
-                                                        <li>
-                                                            <a class="dropdown-item d-flex align-items-center" href="<?= base_url('admin/logbook/detail-logbook/' . esc($encryptedID)) ?>">
-                                                                <i class="fa-solid fa-eye me-2" style="width: 16px;"></i> <span>Detail</span>
-                                                            </a>
-                                                        </li>
-                                                    </ul>
-                                                </div>
+                                            <td class="align-middle">
+                                                <a class="text-secondary font-weight-bold text-sm" href="<?= base_url('admin/logbook/detail-logbook/' . esc($encryptedID)) ?>">
+                                                    <i class="fa-solid fa-eye me-1" style="width: 16px;"></i> <span>Detail</span>
+                                                </a>
                                             </td>
                                         </tr>
                                     <?php endforeach; ?>

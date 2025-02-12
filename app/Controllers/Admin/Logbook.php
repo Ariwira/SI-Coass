@@ -170,13 +170,18 @@ class Logbook extends Controller
             throw new \CodeIgniter\Exceptions\PageNotFoundException('Data tidak ditemukan');
         }
 
-        // Ambil semua logbook yang terkait dengan mahasiswa
-        $logbooks = $this->logbookModel->where('coass_id', $id)->findAll();
+        // Pagination untuk logbook
+        $currentPage = $this->request->getGet('page_logbooks') ?? 1; // Ambil halaman saat ini
+        $perPage = 5; // Jumlah logbook per halaman
+
+        // Ambil semua logbook yang terkait dengan mahasiswa dengan pagination
+        $logbooks = $this->logbookModel->where('coass_id', $id)->paginate($perPage, 'logbooks');
 
         $data = [
             'title' => 'Detail Mahasiswa | SI-COASS',
             'mahasiswa' => $mahasiswa,
             'logbooks' => $logbooks,
+            'pager' => $this->logbookModel->pager, // Tambahkan pager untuk logbook
             'encryptedID' => $encryptedID,
         ];
 
