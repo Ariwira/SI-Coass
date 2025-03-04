@@ -4,6 +4,8 @@ namespace App\Database\Migrations;
 
 use CodeIgniter\Database\Migration;
 
+use function PHPSTORM_META\type;
+
 class Users extends Migration
 {
     public function up()
@@ -14,10 +16,6 @@ class Users extends Migration
                 'constraint'     => 11,
                 'unsigned'       => true,
                 'auto_increment' => true,
-            ],
-            'name' => [
-                'type'       => 'VARCHAR',
-                'constraint' => 255,
             ],
             'email' => [
                 'type'       => 'VARCHAR',
@@ -33,11 +31,18 @@ class Users extends Migration
                 'constraint' => ['Admin', 'Dokter', 'Mahasiswa Coass'],
                 'default'    => 'Mahasiswa Coass',
             ],
-            'created_at' => [
+
+            'remember_token' => [
+                'type'       => 'VARCHAR',
+                'constraint' => 64,
+                'null'       => true,
+            ],
+
+            'created_at'  => [
                 'type'    => 'DATETIME',
                 'null'    => true,
             ],
-            'updated_at' => [
+            'updated_at'  => [
                 'type'    => 'DATETIME',
                 'null'    => true,
             ],

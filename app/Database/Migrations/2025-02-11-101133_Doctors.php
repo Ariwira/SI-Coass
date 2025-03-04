@@ -48,8 +48,8 @@ class Doctors extends Migration
                 'constraint' => ['Single', 'Married', 'Divorced', 'Widowed'],
             ],
             'religion' => [
-                'type'       => 'VARCHAR',
-                'constraint' => 100,
+                'type'       => 'ENUM',
+                'constraint' => ['Islam', 'Hindu', 'Protestan', 'Katolik', 'Buddha', 'Konghucu'],
             ],
             'blood_group' => [
                 'type'       => 'ENUM',

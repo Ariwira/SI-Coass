@@ -37,11 +37,11 @@ class MahasiswaCoass extends Migration
             ],
             'gender' => [
                 'type'       => 'ENUM',
-                'constraint' => ['Male', 'Female', 'Other'],
+                'constraint' => ['Male', 'Female'],
             ],
             'religion' => [
-                'type'       => 'VARCHAR',
-                'constraint' => 100,
+                'type'       => 'ENUM',
+                'constraint' => ['Islam', 'Hindu', 'Protestan', 'Katolik', 'Buddha', 'Konghucu'],
             ],
             'blood_group' => [
                 'type'       => 'ENUM',
