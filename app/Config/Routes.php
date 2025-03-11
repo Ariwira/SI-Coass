@@ -55,7 +55,7 @@ $routes->group('admin', ['filter' => 'auth:Admin'], function ($routes) {
 
 // Dokter Routes (protected by filter)
 $routes->group('dokter', ['filter' => 'auth:Dokter'], function ($routes) {
-    $routes->get('dashboard', 'Dokter::dashboard');
+    $routes->get('dashboard', 'Dokter\Dashboard::index');
     // Other dokter routes...
 });
 
