@@ -200,8 +200,8 @@ class Doctor extends Controller
         $photo = $this->request->getFile('photo');
         $photoName = $doctor['photo']; // Current photo name
         if ($photo->isValid() && !$photo->hasMoved()) {
-            // Delete old photo if exists
-            if ($photoName && file_exists('uploads/photos/' . $photoName)) {
+            // Delete old photo if exists and is not the default avatar
+            if ($photoName && $photoName !== 'default-avatar.jpg' && file_exists('uploads/photos/' . $photoName)) {
                 unlink('uploads/photos/' . $photoName);
             }
             $photoName = $photo->getRandomName();
@@ -236,6 +236,7 @@ class Doctor extends Controller
 
         return redirect()->to('admin/dokter')->with('success', 'Data dokter berhasil diperbarui');
     }
+
     public function delete($encryptedID)
     {
         // Mendekripsi ID

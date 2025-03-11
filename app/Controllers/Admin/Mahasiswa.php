@@ -184,12 +184,12 @@ class Mahasiswa extends Controller
             return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
         }
 
-        // Penanganan upload file foto
+        // Handle photo upload
         $photo = $this->request->getFile('photo');
-        $photoName = $student['photo']; // Ambil nama foto saat ini
+        $photoName = $student['photo']; // Current photo name
         if ($photo->isValid() && !$photo->hasMoved()) {
-            // Hapus foto lama jika ada
-            if ($photoName && file_exists('uploads/photos/' . $photoName)) {
+            // Delete old photo if exists and is not the default avatar
+            if ($photoName && $photoName !== 'default-avatar.jpg' && file_exists('uploads/photos/' . $photoName)) {
                 unlink('uploads/photos/' . $photoName);
             }
             $photoName = $photo->getRandomName();
