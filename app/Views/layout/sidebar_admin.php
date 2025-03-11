@@ -35,11 +35,27 @@
                     <span class="nav-link-text ms-1">Dokter</span>
                 </a>
             </li>
+            <li class="nav-item">
+                <a class="nav-link <?= (strpos($url, 'stase') !== false) ? 'active ' : '' ?>" href="<?= base_url('admin/stase') ?>">
+                    <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
+                        <div role="img" aria-label="Stase Icon" class="fa-solid fa-clipboard-list fa-lg color-background"></div>
+                    </div>
+                    <span class="nav-link-text ms-1">Stase</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link <?= (strpos($url, 'logbook') !== false) ? 'active ' : '' ?>" href="<?= base_url('admin/logbook') ?>">
+                    <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
+                        <div role="img" aria-label="logbook Icon" class="fa-solid fa-address-book fa-lg color-background"></div>
+                    </div>
+                    <span class="nav-link-text ms-1">logbook</span>
+                </a>
+            </li>
             <li class="nav-item mt-3">
                 <h6 class="ps-4 ms-2 text-uppercase text-xs font-weight-bolder opacity-6">Account pages</h6>
             </li>
             <li class="nav-item">
-                <a class="nav-link <?= (strpos($url, 'logbook') !== false) ? 'active ' : '' ?>" href="../pages/profile.html">
+                <a class="nav-link <?= (strpos($url, 'profil') !== false) ? 'active ' : '' ?>" href="../pages/profile.html">
                     <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
                         <i class="fas fa-user"></i>
                     </div>

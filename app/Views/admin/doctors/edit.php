@@ -305,7 +305,7 @@
                         <!-- Tombol Submit -->
                         <div class="form-group mt-4">
                             <button type="submit" class="btn bg-gradient-success">Perbarui</button>
-                            <a href="<?= base_url('admin/dokter') ?>" class="btn bg-gradient-danger">Kembali</a>
+                            <a href="<?= base_url('admin/dokter') ?>" class="btn bg-gradient-info">Kembali</a>
                         </div>
                     </form>
                 </div>

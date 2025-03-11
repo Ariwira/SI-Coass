@@ -38,6 +38,11 @@ class DoctorModel extends Model
     protected $createdField  = 'created_at';
     protected $updatedField  = 'updated_at';
 
+    public function getTotalDoctors()
+    {
+        return $this->countAll(); // This will return the total number of records in the doctors table
+    }
+
     /**
      * Get doctors with their corresponding user data
      */
@@ -46,6 +51,22 @@ class DoctorModel extends Model
         return $this->select('doctors.*, users.email')
             ->join('users', 'users.id = doctors.user_id')
             ->orderBy('doctors.name', 'ASC');
+    }
+
+    public function getLatestDoctors($limit = 5)
+    {
+        return $this->select('doctors.*, users.email')
+            ->join('users', 'users.id = doctors.user_id')
+            ->orderBy('doctors.created_at', 'DESC')
+            ->findAll($limit);
+    }
+
+    public function getDoctorById($id)
+    {
+        return $this->select('doctors.*, users.email')
+            ->join('users', 'users.id = doctors.user_id')
+            ->where('doctors.doctor_id', $id)
+            ->first(); // Mengambil satu hasil
     }
 
     /**

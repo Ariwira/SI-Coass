@@ -286,7 +286,7 @@
                         <!-- Tombol Submit dan Kembali -->
                         <div class="form-group mt-4">
                             <button type="submit" class="btn bg-gradient-success me-1">Simpan</button>
-                            <a href="<?= base_url('admin/mahasiswa-coass') ?>" class="btn bg-gradient-danger">Kembali</a>
+                            <a href="<?= base_url('admin/mahasiswa-coass') ?>" class="btn bg-gradient-info">Kembali</a>
                         </div>
                     </form>
                 </div>

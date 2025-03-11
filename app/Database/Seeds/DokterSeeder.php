@@ -9,7 +9,7 @@ class DokterSeeder extends Seeder
 {
     public function run()
     {
-        $faker = Faker::create();
+        $faker = Faker::create('id_ID');
 
         // Mengatur user_id dokter mulai dari 22 hingga 42
         for ($userId = 22; $userId <= 41; $userId++) {
@@ -18,7 +18,7 @@ class DokterSeeder extends Seeder
                 'name' => $faker->name,
                 'date_of_birth' => $faker->date(),
                 'place_of_birth' => $faker->city,
-                'id_card' => $faker->unique()->numerify('ID#####'),
+                'id_card' => $faker->unique()->numerify('################'),
                 'gender' => $faker->randomElement(['Male', 'Female']),
                 'mother_tongue' => $faker->word,
                 'marital_status' => $faker->randomElement(['Single', 'Married', 'Divorced', 'Widowed']),

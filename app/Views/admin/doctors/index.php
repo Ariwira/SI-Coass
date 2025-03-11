@@ -55,7 +55,7 @@
                             <tbody>
                                 <?php if (empty($doctors)): ?>
                                     <tr>
-                                        <td colspan="5" class="text-center py-4">
+                                        <td colspan="7" class="text-center py-4">
                                             <p class="text-md mb-0">Tidak ada data dokter yang ditemukan</p>
                                             <?php if (!empty($keyword)): ?>
                                                 <p class="text-sm text-secondary mb-0">Coba kata kunci pencarian lain</p>
@@ -103,8 +103,8 @@
                                             </td>
                                             <td class="pe-4 text-center position-relative">
                                                 <div class="dropdown">
-                                                    <button style="all: unset;" class="" type="button" id="dropdownMenuButton<?= $encryptedID ?>" data-bs-toggle="dropdown" aria-expanded="false">
-                                                        <i class="fa-solid fa-ellipsis-vertical" style="width: 48px;"></i> <!-- Ikon titik tiga -->
+                                                    <button style="all: unset;" class="" type="button" id="dropdownMenuButton<?= $encryptedID ?>" data-bs-toggle="dropdown" aria-label="edit button" aria-expanded="false">
+                                                        <i class="fa-solid fa-ellipsis-vertical" style="width: 48px;"></i>
                                                     </button>
                                                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton<?= $encryptedID ?>">
                                                         <li>
@@ -119,17 +119,37 @@
                                                             </a>
                                                         </li>
                                                         <li>
-                                                            <form action="<?= base_url('admin/dokter/delete-dokter/' . $encryptedID) ?>" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin menghapus data ini?')">
-                                                                <?= csrf_field() ?>
-                                                                <button type="submit" class="dropdown-item d-flex align-items-center text-danger">
-                                                                    <i class="fa-solid fa-trash me-2" style="width: 16px;"></i>
-                                                                    <span>Hapus</span>
-                                                                </button>
-                                                            </form>
+                                                            <button class="dropdown-item d-flex align-items-center text-danger" data-bs-toggle="modal" data-bs-target="#deleteModal<?= $encryptedID ?>">
+                                                                <i class="fa-solid fa-trash me-2" style="width: 16px;"></i>
+                                                                <span>Hapus</span>
+                                                            </button>
                                                         </li>
                                                     </ul>
                                                 </div>
+                                            </td>
                                         </tr>
+
+                                        <!-- Modal Konfirmasi Hapus -->
+                                        <div class="modal fade" id="deleteModal<?= $encryptedID ?>" tabindex="-1" aria-labelledby="deleteModalLabel<?= $encryptedID ?>" aria-hidden="true">
+                                            <div class="modal-dialog modal-dialog-centered" role="document">
+                                                <div class="modal-content bg-white">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="deleteModalLabel<?= $encryptedID ?>">Konfirmasi Hapus</h5>
+                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        Apakah Anda yakin ingin menghapus dokter ini?
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn bg-gradient-info" data-bs-dismiss="modal">Batal</button>
+                                                        <form action="<?= base_url('admin/dokter/delete-dokter/' . $encryptedID) ?>" method="POST">
+                                                            <?= csrf_field() ?>
+                                                            <button type="submit" class="btn bg-gradient-danger">Hapus</button>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                     <?php endforeach; ?>
                                 <?php endif; ?>
                             </tbody>

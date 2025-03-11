@@ -41,6 +41,11 @@ class Stase extends Migration
             'end_date' => [
                 'type' => 'DATE',
             ],
+            'status' => [
+                'type'    => 'ENUM',
+                'constraint' => ['pending', 'aktif', 'selesai'],
+                'default' => 'pending',
+            ],
             'created_at' => [
                 'type'    => 'DATETIME',
                 'null'    => true,
@@ -58,6 +63,8 @@ class Stase extends Migration
 
     public function down()
     {
+        // Hapus kolom status jika ada
+        $this->forge->dropColumn('stase', 'status');
         $this->forge->dropTable('stase');
     }
 }

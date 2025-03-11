@@ -34,6 +34,11 @@ class MahasiswaModel extends Model
     protected $createdField  = 'created_at';
     protected $updatedField  = 'updated_at';
 
+    public function getTotalMahasiswa()
+    {
+        return $this->countAll(); // This will return the total number of records in the mahasiswa table
+    }
+
     /**
      * Get students with their corresponding user data
      */
@@ -42,6 +47,14 @@ class MahasiswaModel extends Model
         return $this->select('mahasiswa_coass.*, users.email')
             ->join('users', 'users.id = mahasiswa_coass.user_id')
             ->orderBy('mahasiswa_coass.name', 'ASC');
+    }
+
+    public function getLatestStudents($limit = 5)
+    {
+        return $this->select('mahasiswa_coass.*, users.email')
+            ->join('users', 'users.id = mahasiswa_coass.user_id')
+            ->orderBy('mahasiswa_coass.created_at', 'DESC')
+            ->findAll($limit);
     }
 
     /**

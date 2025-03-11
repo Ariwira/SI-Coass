@@ -14,7 +14,7 @@ class UsersMahasiswaSeeder extends Seeder
         for ($i = 0; $i < 20; $i++) {
             $data = [
                 'email' => $faker->unique()->safeEmail,
-                'password' => password_hash('password', PASSWORD_BCRYPT), // Password yang sama untuk semua
+                'password' => password_hash('coass@2025', PASSWORD_BCRYPT), // Password yang sama untuk semua
                 'role' => 'Mahasiswa Coass',
                 'remember_token' => null,
                 'created_at' => date('Y-m-d H:i:s'),

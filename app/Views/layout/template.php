@@ -18,6 +18,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Sistem Informasi Administrasi Kegiatan Coass di Rumah Sakit Pendidikan Gigi dan Mulut adalah platform berbasis web yang dirancang untuk mengelola administrasi mahasiswa co-assistant. Sistem ini mencakup pengelolaan jadwal rotasi, logbook, penilaian, serta administrasi dokter dan mahasiswa, sehingga memastikan proses pendidikan klinis berjalan lebih efisien dan terorganisir." />
     <link rel="apple-touch-icon" sizes="76x76" href="<?= base_url(); ?>/assets/img/apple-icon.png">
     <link rel="icon" type="image/png" href="<?= base_url(); ?>/assets/img/favicon.png">
     <title>
@@ -33,7 +34,18 @@
 </head>
 
 <body class="g-sidenav-show  bg-gray-100">
-    <?= $this->include('layout/sidebar'); ?>
+    <?php
+    $role = session()->get('role'); // Ambil role dari session
+
+    // Memuat sidebar berdasarkan role
+    if ($role === 'Admin') {
+        echo $this->include('layout/sidebar_admin');
+    } elseif ($role === 'Dokter') {
+        echo $this->include('layout/sidebar_dokter');
+    } else {
+        echo $this->include('layout/sidebar_mahasiswa');
+    }
+    ?>
     <?= $this->include('layout/navbar'); ?>
     <?= $this->renderSection('content'); ?>
 

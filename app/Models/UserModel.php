@@ -39,4 +39,19 @@ class UserModel extends Model
 
         return null;
     }
+
+    public function updateRememberToken($userId, $token)
+    {
+        return $this->update($userId, ['remember_token' => $token]);
+    }
+
+    public function getUserByRememberToken($token)
+    {
+        return $this->where('remember_token', $token)->first();
+    }
+
+    public function getTotalUsers()
+    {
+        return $this->countAll();
+    }
 }

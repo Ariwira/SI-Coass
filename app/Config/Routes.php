@@ -33,6 +33,23 @@ $routes->group('admin', ['filter' => 'auth:Admin'], function ($routes) {
     $routes->get('dokter/edit-dokter/(:segment)', 'Admin\Doctor::edit/$1');
     $routes->post('dokter/update/(:segment)', 'Admin\Doctor::update/$1');
     $routes->post('dokter/delete-dokter/(:segment)', 'Admin\Doctor::delete/$1');
+
+    // Routes untuk Stase
+    $routes->get('stase', 'Admin\Stase::index');
+    $routes->get('stase/tambah-stase', 'Admin\Stase::create');
+    $routes->post('stase/store', 'Admin\Stase::store');
+    $routes->get('stase/edit-stase/(:segment)', 'Admin\Stase::edit/$1');
+    $routes->post('stase/update/(:segment)', 'Admin\Stase::update/$1');
+    $routes->post('stase/delete-stase/(:segment)', 'Admin\Stase::delete/$1');
+
+    // Routes untuk Logbook
+    $routes->get('logbook', 'Admin\Logbook::index');
+    $routes->get('logbook/tambah-logbook', 'Admin\Logbook::create');
+    $routes->post('logbook/store', 'Admin\Logbook::store');
+    $routes->get('logbook/edit-logbook/(:segment)', 'Admin\Logbook::edit/$1');
+    $routes->post('logbook/update/(:segment)', 'Admin\Logbook::update/$1');
+    $routes->post('logbook/delete-logbook/(:segment)', 'Admin\Logbook::delete/$1');
+    $routes->get('logbook/detail-logbook/(:segment)', 'Admin\Logbook::detail/$1');
 });
 
 
