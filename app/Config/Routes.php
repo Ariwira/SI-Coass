@@ -61,6 +61,6 @@ $routes->group('dokter', ['filter' => 'auth:Dokter'], function ($routes) {
 
 // Mahasiswa Routes (protected by filter)
 $routes->group('mahasiswa', ['filter' => 'auth:Mahasiswa Coass'], function ($routes) {
-    $routes->get('dashboard', 'Mahasiswa::dashboard');
+    $routes->get('dashboard', 'Mahasiswa\Dashboard::index');
     // Other mahasiswa routes...
 });
