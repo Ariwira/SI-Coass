@@ -32,11 +32,6 @@
                             <textarea class="form-control" id="activity" name="activity" required></textarea>
                         </div>
                         
-                        <div class="mb-3">
-                            <label for="feedback" class="form-label">Umpan Balik</label>
-                            <textarea class="form-control" id="feedback" name="feedback"></textarea>
-                        </div>
-                        
                         <button type="submit" class="btn bg-gradient-success">Simpan</button>
                         <a href="<?= base_url('mahasiswa/logbook') ?>" class="btn bg-gradient-info">Kembali</a>
                     </form>
