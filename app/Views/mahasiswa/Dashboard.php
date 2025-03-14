@@ -38,6 +38,13 @@
                                 </a>
                             </div>
                         </div>
+                        <div class="contact-info ">
+                            <div class="d-grid gap-2">
+                                <a href="#" class="btn btn-sm bg-gradient-primary">
+                                    <i class="fas fa-edit me-2 font-weight 500"></i>Tambah Logbook
+                                </a>
+                            </div>
+                        </div>
                     </div>
                 </div>
 

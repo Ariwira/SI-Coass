@@ -12,7 +12,7 @@
     <div class="collapse navbar-collapse w-auto" id="sidenav-collapse-main">
         <ul class="navbar-nav">
             <li class="nav-item">
-                <a class="nav-link <?= (strpos($url, 'dashboard') !== false) ? 'active ' : '' ?>" href="<?= base_url('admin/dashboard') ?>">
+                <a class="nav-link <?= (strpos($url, 'dashboard') !== false) ? 'active ' : '' ?>" href="<?= base_url('mahasiswa/dashboard') ?>">
                     <div class="icon icon-shape icon-sm shadow border-radius-md bg-dark text-center me-2 d-flex align-items-center justify-content-center">
                         <div role="img" aria-label="Dashboard Icon" class="fa-solid fa-house fa-lg color-background"></div>
                     </div>
@@ -20,7 +20,7 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link <?= (strpos($url, 'stase') !== false) ? 'active ' : '' ?>" href="<?= base_url('admin/stase') ?>">
+                <a class="nav-link <?= (strpos($url, 'stase') !== false) ? 'active ' : '' ?>" href="<?= base_url('mahasiswa/stase') ?>">
                     <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
                         <div role="img" aria-label="Stase Icon" class="fa-solid fa-clipboard-list fa-lg color-background"></div>
                     </div>
@@ -28,7 +28,7 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link <?= (strpos($url, 'logbook') !== false) ? 'active ' : '' ?>" href="<?= base_url('admin/logbook') ?>">
+                <a class="nav-link <?= (strpos($url, 'logbook') !== false) ? 'active ' : '' ?>" href="<?= base_url('mahasiswa/logbook') ?>">
                     <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
                         <div role="img" aria-label="logbook Icon" class="fa-solid fa-address-book fa-lg color-background"></div>
                     </div>

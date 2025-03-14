@@ -48,7 +48,7 @@
                     <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
                         <div role="img" aria-label="logbook Icon" class="fa-solid fa-address-book fa-lg color-background"></div>
                     </div>
-                    <span class="nav-link-text ms-1">logbook</span>
+                    <span class="nav-link-text ms-1">Logbook</span>
                 </a>
             </li>
             <li class="nav-item mt-3">

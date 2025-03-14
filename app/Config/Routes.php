@@ -63,4 +63,12 @@ $routes->group('dokter', ['filter' => 'auth:Dokter'], function ($routes) {
 $routes->group('mahasiswa', ['filter' => 'auth:Mahasiswa Coass'], function ($routes) {
     $routes->get('dashboard', 'Mahasiswa\Dashboard::index');
     // Other mahasiswa routes...
+    
+    // Routes untuk Logbook
+    $routes->get('logbook', 'Mahasiswa\Logbook::redirect');
+    $routes->get('logbook/create', 'Mahasiswa\Logbook::create');
+    $routes->post('logbook/store', 'Mahasiswa\Logbook::store');
+    $routes->get('logbook/edit/(:num)', 'Mahasiswa\Logbook::edit/$1');
+    $routes->post('logbook/update/(:num)', 'Mahasiswa\Logbook::update/$1');
+    $routes->get('logbook/delete/(:num)', 'Mahasiswa\Logbook::delete/$1');
 });
