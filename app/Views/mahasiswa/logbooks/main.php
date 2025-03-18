@@ -44,8 +44,8 @@
                             <thead>
                                 <tr>
                                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Tanggal</th>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Deskripsi Kegiatan</th>
                                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Nama Stase</th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Kegiatan</th>
                                     <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Status</th>
                                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 text-center ps-2">Aksi</th>
                                 </tr>
@@ -67,10 +67,10 @@
                                                 <p class="text-xs font-weight-bold mb-0"><?= $logbook['date']; ?></p>
                                             </td>
                                             <td>
-                                                <p class="text-xs font-weight-bold mb-0"><?= $logbook['activity']; ?></p>
+                                                <p class="text-xs font-weight-bold mb-0"><?= $logbook['stase_name']; ?></p>
                                             </td>
                                             <td>
-                                                <p class="text-xs font-weight-bold mb-0"><?= $logbook['stase_name']; ?></p>
+                                                <p class="text-xs font-weight-bold mb-0"><?= $logbook['activity']; ?></p>
                                             </td>
                                             <td class="align-middle text-center text-sm">
                                                 <?php
