@@ -23,7 +23,6 @@ class LogbookModel extends Model
         'updated_at',
     ];
 
-    // Optional: If you want to use timestamps
     protected $useTimestamps = true;
     protected $dateFormat    = 'datetime';
     protected $createdField  = 'created_at';
@@ -33,12 +32,42 @@ class LogbookModel extends Model
     {
         return [
             'total_logbooks' => $this->where('coass_id', $coass_id)->countAllResults(),
-            'total_verified' => $this->where(['coass_id' => $coass_id, 'status' => 'verified'])->countAllResults(),
-            'total_not_verified' => $this->where(['coass_id' => $coass_id, 'status' => 'not_verified'])->countAllResults(),
+            'total_verified' => $this->where(['coass_id' => $coass_id, 'status' => 'Verified'])->countAllResults(),
+            'total_not_verified' => $this->where(['coass_id' => $coass_id, 'status' => 'Not Verified'])->countAllResults(),
         ];
     }
 
-    // Validation rules
+    public function getLogbooksWithStase()
+    {
+        return $this->select('logbooks.*, stase.name as stase_name')
+                    ->join('stase', 'stase.stase_id = logbooks.stase_id')
+                    ->findAll();
+    }
+
+    public function getLogbooks($perPage, $page)
+    {
+        return $this->select('logbooks.*, stase.name as stase_name')
+                    ->join('stase', 'stase.stase_id = logbooks.stase_id')
+                    ->paginate($perPage, 'logbooks', $page);
+    }
+
+    public function searchLogbooks($keyword, $perPage, $page)
+    {
+        return $this->select('logbooks.*, stase.name as stase_name')
+                    ->join('stase', 'stase.stase_id = logbooks.stase_id')
+                    ->like('activity', $keyword)
+                    ->orLike('date', $keyword)
+                    ->paginate($perPage, 'logbooks', $page);
+    }
+
+    public function getLogbookById($id)
+    {
+        return $this->select('logbooks.*, stase.name as stase_name')
+                    ->join('stase', 'stase.stase_id = logbooks.stase_id')
+                    ->where('logbook_id', $id)
+                    ->first();
+    }
+
     protected $validationRules = [
         'coass_id' => 'required|integer',
         'stase_id' => 'required|integer',

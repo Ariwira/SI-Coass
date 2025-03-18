@@ -65,7 +65,7 @@ $routes->group('mahasiswa', ['filter' => 'auth:Mahasiswa Coass'], function ($rou
     // Other mahasiswa routes...
     
     // Routes untuk Logbook
-    $routes->get('logbook', 'Mahasiswa\Logbook::redirect');
+    $routes->get('logbook', 'Mahasiswa\Logbook::index');
     $routes->get('logbook/create', 'Mahasiswa\Logbook::create');
     $routes->post('logbook/store', 'Mahasiswa\Logbook::store');
     $routes->get('logbook/edit/(:num)', 'Mahasiswa\Logbook::edit/$1');

@@ -23,9 +23,10 @@
                         <table class="table align-items-center mb-0">
                             <thead>
                                 <tr>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Tanggal</th>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Kegiatan</th>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Status</th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 text-center">Tanggal</th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 text-center">Kegiatan</th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 text-center">Nama Stase</th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 text-center">Status</th>
                                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 text-center">Aksi</th>
                                 </tr>
                             </thead>
@@ -38,90 +39,74 @@
                                     </tr>
                                 <?php else: ?>
                                     <?php foreach ($logbooks as $logbook): ?>
-                                        <tr>
+                                        <tr class="text-center">
                                             <td>
                                                 <p class="text-xs font-weight-bold mb-0"><?= $logbook['date']; ?></p>
                                             </td>
                                             <td>
                                                 <p class="text-xs font-weight-bold mb-0"><?= $logbook['activity']; ?></p>
                                             </td>
-                                            <td class="align-middle text-center text-sm">
-                                                <?php
-                                                switch ($logbook['status']) {
-                                                    case 'Not Verified':
-                                                        echo '<span class="badge badge-sm bg-gradient-warning w-75 text-center">Not Verified</span>';
-                                                        break;
-                                                    case 'Verified':
-                                                        echo '<span class="badge badge-sm bg-gradient-success w-75 text-center">Verified</span>';
-                                                        break;
-                                                    case 'Pending':
-                                                        echo '<span class="badge badge-sm bg-gradient-secondary w-75 text-center">Pending</span>';
-                                                        break;
-                                                    default:
-                                                        echo '<span class="badge badge-sm bg-gradient-secondary w-75 text-center">Tidak Diketahui</span>';
-                                                        break;
-                                                }
-                                                ?>
+                                            <td>
+                                                <p class="text-xs font-weight-bold mb-0"><?= $logbook['stase_name']; ?></p>
                                             </td>
                                             <td>
-                                                <p class="text-xs font-weight-bold mb-0"><?= $logbook['feedback'] ?? 'Tidak ada umpan balik'; ?></p>
+                                                <p class="text-xs font-weight-bold mb-0">
+                                                    <?php
+                                                    switch ($logbook['status']) {
+                                                        case 'Verified':
+                                                            echo '<span class="badge badge-sm bg-gradient-success w-75 text-center">Diverifikasi</span>';
+                                                            break;
+                                                        case 'Pending':
+                                                            echo '<span class="badge badge-sm bg-gradient-warning w-75 text-center">Pending</span>';
+                                                            break;
+                                                        case 'Not Verified':
+                                                            echo '<span class="badge badge-sm bg-gradient-secondary w-75 text-center">Belum Diverifikasi</span>';
+                                                            break;
+                                                        default:
+                                                            echo '<span class="badge badge-sm bg-gradient-secondary w-75 text-center">Tidak Diketahui</span>';
+                                                            break;
+                                                    }
+                                                    ?>
+                                                </p>
                                             </td>
-                                            <td class="text-center position-relative">
+                                            <td class="pe-4 text-center position-relative">
                                                 <div class="dropdown">
                                                     <button style="all: unset;" class="" type="button" id="dropdownMenuButton<?= $logbook['logbook_id'] ?>" data-bs-toggle="dropdown" aria-label="edit button" aria-expanded="false">
                                                         <i class="fa-solid fa-ellipsis-vertical" style="width: 48px;"></i>
                                                     </button>
                                                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton<?= $logbook['logbook_id'] ?>">
                                                         <li>
-                                                            <a class="dropdown-item d-flex align-items-center" href="<?= base_url('mahasiswa/logbook/edit/' . $logbook['logbook_id']); ?>">
+                                                            <a class="dropdown-item d-flex align-items-center" href="<?= base_url('mahasiswa/logbook/edit/' . $logbook['logbook_id']) ?>">
                                                                 <i class="fa-solid fa-edit me-2" style="width: 16px;"></i>
                                                                 <span>Edit</span>
                                                             </a>
                                                         </li>
                                                         <li>
-                                                            <button class="dropdown-item d-flex align-items-center text-danger" data-bs-toggle="modal" data-bs-target="#deleteModal<?= $logbook['logbook_id'] ?>">
+                                                            <a class="dropdown-item d-flex align-items-center text-danger" href="<?= base_url('mahasiswa/logbook/delete/' . $logbook['logbook_id']) ?>" onclick ="return confirm('Apakah Anda yakin ingin menghapus logbook ini?');">
                                                                 <i class="fa-solid fa-trash me-2" style="width: 16px;"></i>
                                                                 <span>Hapus</span>
-                                                            </button>
+                                                            </a>
                                                         </li>
                                                     </ul>
                                                 </div>
                                             </td>
                                         </tr>
-
-                                        <!-- Modal Konfirmasi Hapus -->
-                                        <div class="modal fade" id="deleteModal<?= $logbook['logbook_id'] ?>" tabindex="-1" aria-labelledby="deleteModalLabel<?= $logbook['logbook_id'] ?>" aria-hidden="true">
-                                            <div class="modal-dialog modal-dialog-centered" role="document">
-                                                <div class="modal-content bg-white">
-                                                    <div class="modal-header">
-                                                        <h5 class="modal-title" id="deleteModalLabel<?= $logbook['logbook_id'] ?>">Konfirmasi Hapus</h5>
-                                                        <button type="button" class="btn-close fa-solid fa-xmark text-dark" data-bs-dismiss="modal" aria-label="Close"></button>
-                                                    </div>
-                                                    <div class="modal-body">
-                                                        Apakah Anda yakin ingin menghapus logbook ini?
-                                                    </div>
-                                                    <div class="modal-footer">
-                                                        <button type="button" class="btn bg-gradient-info" data-bs-dismiss="modal">Batal</button>
-                                                        <form action="<?= base_url('mahasiswa/logbook/delete/' . $logbook['logbook_id']); ?>" method="POST">
-                                                            <?= csrf_field() ?>
-                                                            <button type="submit" class="btn bg-gradient-danger">Hapus</button>
-                                                        </form>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
                                     <?php endforeach; ?>
                                 <?php endif; ?>
                             </tbody>
                         </table>
                     </div>
+
                     <div class="d-flex justify-content-center mt-4">
-                        <!-- Pagination can be added here if needed -->
+                        <?= $pager->links('logbooks', 'custom_pagination') ?>
                     </div>
 
                     <div class="px-4 py-2 text-center">
                         <p class="text-xs text-secondary mb-0">
-                            <!-- Additional information can be added here -->
+                            Menampilkan <?= count($logbooks) ?> dari <?= $pager->getTotal('logbooks') ?> data logbook
+                            <?php if (!empty($keyword)): ?>
+                                untuk pencarian "<?= $keyword ?>"
+                            <?php endif; ?>
                         </p>
                     </div>
                 </div>

@@ -14,10 +14,23 @@ class Logbook extends Controller
         $this->logbookModel = new LogbookModel();
     }
 
-    public function redirect()
+    public function index()
     {
-        $data['logbooks'] = $this->logbookModel->findAll();
-        return view('mahasiswa/logbooks/main', $data);
+        $currentPage = $this->request->getVar('page') ? $this->request->getVar('page') : 1;
+        $perPage = 10; // Jumlah data per halaman
+
+        // Ambil data logbook dengan pagination
+        $logbooks = $this->logbookModel->getLogbooks($perPage, $currentPage);
+
+        // Inisialisasi pager
+        $pager = $this->logbookModel->pager;
+
+        // Kirim data ke view
+        return view('mahasiswa/logbooks/main', [
+            'logbooks' => $logbooks,
+            'pager' => $pager,
+            'keyword' => $this->request->getVar('keyword') // Jika Anda menggunakan pencarian
+        ]);
     }
 
     public function create()
@@ -28,10 +41,19 @@ class Logbook extends Controller
     public function store()
     {
         $data = $this->request->getPost();
+        
+        // Tambahkan status default jika tidak ada
+        if (!isset($data['status'])) {
+            $data['status'] = 'Not Verified'; // Atau status default lainnya
+        }
+
+        log_message('debug', 'Data yang diterima: ' . print_r($data, true)); // Log data yang diterima
 
         if ($this->logbookModel->save($data)) {
+            log_message('debug', 'Data berhasil disimpan ke database.'); // Log jika berhasil
             return redirect()->to('/mahasiswa/logbook')->with('success', 'Logbook berhasil ditambahkan.');
         } else {
+            log_message('debug', 'Error: ' . print_r($this->logbookModel->errors(), true)); // Log kesalahan
             return redirect()->back()->with('errors', $this->logbookModel->errors());
         }
     }
