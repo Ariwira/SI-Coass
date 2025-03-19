@@ -51,15 +51,12 @@
                     <span class="nav-link-text ms-1">Logbook</span>
                 </a>
             </li>
-            <li class="nav-item mt-3">
-                <h6 class="ps-4 ms-2 text-uppercase text-xs font-weight-bolder opacity-6">Account pages</h6>
-            </li>
             <li class="nav-item">
-                <a class="nav-link <?= (strpos($url, 'profil') !== false) ? 'active ' : '' ?>" href="../pages/profile.html">
+                <a class="nav-link <?= (strpos($url, 'penilaian') !== false) ? 'active ' : '' ?>" href="<?= base_url('admin/penilaian') ?>">
                     <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
-                        <i class="fas fa-user"></i>
+                        <div role="img" aria-label="penilaian Icon" class="fa-solid fa-chart-simple fa-lg color-background"></div>
                     </div>
-                    <span class="nav-link-text ms-1">Profile</span>
+                    <span class="nav-link-text ms-1">penilaian</span>
                 </a>
             </li>
         </ul>

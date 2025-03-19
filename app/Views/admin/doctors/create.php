@@ -121,8 +121,8 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="marital_status">Status Perkawinan (opsional)</label>
-                                    <select class="form-control <?= (session()->has('errors') && isset(session('errors')['marital_status'])) ? 'is-invalid' : '' ?>" id="marital_status" name="marital_status" required>
+                                    <label for="marital_status">Status Perkawinan (Opsional)</label>
+                                    <select class="form-control <?= (session()->has('errors') && isset(session('errors')['marital_status'])) ? 'is-invalid' : '' ?>" id="marital_status" name="marital_status">
                                         <option value="">Pilih</option>
                                         <option value="Single" <?= old('marital_status') == 'Single' ? 'selected' : '' ?>>Belum Kawin</option>
                                         <option value="Married" <?= old('marital_status') == 'Married' ? 'selected' : '' ?>>Menikah</option>
@@ -206,6 +206,18 @@
                         <!-- City & Address -->
                         <div class="row">
                             <div class="col-md-6">
+                                <!-- Qualification -->
+                                <div class="form-group">
+                                    <label for="qualification">Kualifikasi</label>
+                                    <input type="text" class="form-control <?= (session()->has('errors') && isset(session('errors')['qualification'])) ? 'is-invalid' : '' ?>" id="qualification" name="qualification" value="<?= old('qualification') ?>" placeholder="Masukkan kualifikasi">
+                                    <?php if (session()->has('errors') && isset(session('errors')['qualification'])): ?>
+                                        <div class="ms-1 text-danger" style="font-size: 0.75rem;">
+                                            <?= session('errors')['qualification'] ?>
+                                        </div>
+                                    <?php endif; ?>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="city">Kota</label>
                                     <input type="text" class="form-control <?= (session()->has('errors') && isset(session('errors')['city'])) ? 'is-invalid' : '' ?>" id="city" name="city" value="<?= old('city') ?>" placeholder="Masukkan kota">
@@ -216,6 +228,9 @@
                                     <?php endif; ?>
                                 </div>
                             </div>
+                        </div>
+
+                        <div class="row">
                             <div class="col-md-6">
                                 <!-- State -->
                                 <div class="form-group">
@@ -224,21 +239,6 @@
                                     <?php if (session()->has('errors') && isset(session('errors')['state'])): ?>
                                         <div class="ms-1 text-danger" style="font-size: 0.75rem;">
                                             <?= session('errors')['state'] ?>
-                                        </div>
-                                    <?php endif; ?>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="row">
-                            <div class="col-md-6">
-                                <!-- Qualification -->
-                                <div class="form-group">
-                                    <label for="qualification">Kualifikasi</label>
-                                    <input type="text" class="form-control <?= (session()->has('errors') && isset(session('errors')['qualification'])) ? 'is-invalid' : '' ?>" id="qualification" name="qualification" value="<?= old('qualification') ?>" placeholder="Masukkan kualifikasi">
-                                    <?php if (session()->has('errors') && isset(session('errors')['qualification'])): ?>
-                                        <div class="ms-1 text-danger" style="font-size: 0.75rem;">
-                                            <?= session('errors')['qualification'] ?>
                                         </div>
                                     <?php endif; ?>
                                 </div>
@@ -260,7 +260,7 @@
                             <div class="col-md-6">
                                 <!-- Phone -->
                                 <div class="form-group">
-                                    <label for="phone">Telepon</label>
+                                    <label for="phone">Nomor Telepon</label>
                                     <input type="text" class="form-control <?= (session()->has('errors') && isset(session('errors')['phone'])) ? 'is-invalid' : '' ?>" id="phone" name="phone" value="<?= old('phone') ?>" placeholder="Masukkan nomor telepon">
                                     <?php if (session()->has('errors') && isset(session('errors')['phone'])): ?>
                                         <div class="ms-1 text-danger" style="font-size: 0.75rem;">
@@ -272,7 +272,7 @@
                             <div class="col-md-6">
                                 <!-- Mobile No -->
                                 <div class="form-group">
-                                    <label for="mobile_no">Nomor Seluler</label>
+                                    <label for="mobile_no">Nomor HP (Opsional) </label>
                                     <input type="text" class="form-control <?= (session()->has('errors') && isset(session('errors')['mobile_no'])) ? 'is-invalid' : '' ?>" id="mobile_no" name="mobile_no" value="<?= old('mobile_no') ?>" placeholder="Masukkan nomor seluler">
                                     <?php if (session()->has('errors') && isset(session('errors')['mobile_no'])): ?>
                                         <div class="ms-1 text-danger" style="font-size: 0.75rem;">

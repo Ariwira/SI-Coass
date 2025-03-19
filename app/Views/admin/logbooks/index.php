@@ -58,28 +58,37 @@
                                 <?php else: ?>
                                     <?php foreach ($students as $student): ?>
                                         <?php
-                                        // Ambil total logbook untuk mahasiswa ini
-                                        $totals = $totals[$student['coass_id']] ?? [
+                                        $coass_id = $student['coass_id'];
+
+                                        // Ensure totals exist for this coass_id
+                                        $totals_for_student = $totals[$coass_id] ?? [
                                             'total_logbooks' => 0,
                                             'total_verified' => 0,
-                                            'total_not_verified' => 0
+                                            'total_rejected' => 0
                                         ];
 
-                                        // Misalkan kita menggunakan coass_id sebagai ID yang dienkripsi
-                                        $encryptedID = bin2hex(service('encrypter')->encrypt($student['coass_id'])); // Contoh enkripsi sederhana
+                                        // Encrypt ID for security
+                                        $encryptedID = bin2hex(service('encrypter')->encrypt($coass_id));
                                         ?>
                                         <tr>
                                             <td>
                                                 <div class="d-flex ps-3 px-2 py-1">
                                                     <div>
                                                         <?php if (!empty($student['photo'])): ?>
-                                                            <img src="<?= esc(base_url('uploads/photos/' . $student['photo'])) ?>" class="avatar avatar-sm me-3" style="object-fit: cover; width: 40px; height: 40px;" alt="Foto Mahasiswa">
+                                                            <img src="<?= esc(base_url('uploads/photos/' . $student['photo'])) ?>"
+                                                                class="avatar avatar-sm me-3"
+                                                                style="object-fit: cover; width: 40px; height: 40px;"
+                                                                alt="Foto Mahasiswa">
                                                         <?php else: ?>
-                                                            <img src="<?= esc(base_url('assets/img/default-avatar.jpg')) ?>" class="avatar avatar-sm me-3" style="object-fit: cover; width: 40px; height: 40px;" alt="Foto Default">
+                                                            <img src="<?= esc(base_url('assets/img/default-avatar.jpg')) ?>"
+                                                                class="avatar avatar-sm me-3"
+                                                                style="object-fit: cover; width: 40px; height: 40px;"
+                                                                alt="Foto Default">
                                                         <?php endif; ?>
                                                     </div>
                                                     <div class="d-flex flex-column justify-content-center">
                                                         <h6 class="mb-0 text-sm text-wrap"><?= esc($student['name']) ?></h6>
+                                                        <p class="text-xs font-weight-bold mb-0"><?= esc($student['email']); ?></p>
                                                     </div>
                                                 </div>
                                             </td>
@@ -87,21 +96,22 @@
                                                 <p class="text-xs font-weight-bold mb-0"><?= esc($student['nim']); ?></p>
                                             </td>
                                             <td>
-                                                <p class="text-xs font-weight-bold mb-0"><?= esc($totals['total_logbooks']); ?></p>
+                                                <p class="text-xs font-weight-bold mb-0"><?= esc($totals_for_student['total_logbooks']); ?></p>
                                             </td>
                                             <td>
-                                                <p class="text-xs font-weight-bold mb-0"><?= esc($totals['total_verified']); ?></p>
+                                                <p class="text-xs font-weight-bold mb-0"><?= esc($totals_for_student['total_verified']); ?></p>
                                             </td>
                                             <td>
-                                                <p class="text-xs font-weight-bold mb-0"><?= esc($totals['total_not_verified']); ?></p>
+                                                <p class="text-xs font-weight-bold mb-0"><?= esc($totals_for_student['total_rejected']); ?></p>
                                             </td>
-                                            <td class="align-middle">
-                                                <a class="text-secondary font-weight-bold text-sm" href="<?= base_url('admin/logbook/detail-logbook/' . esc($encryptedID)) ?>">
+                                            <td class="align-middle text-center pe-4">
+                                                <a class="text-secondary fw-bold text-sm" href="<?= base_url('admin/logbook/detail-logbook/' . esc($encryptedID)) ?>">
                                                     <i class="fa-solid fa-eye me-1" style="width: 16px;"></i> <span>Detail</span>
                                                 </a>
                                             </td>
                                         </tr>
                                     <?php endforeach; ?>
+
                                 <?php endif; ?>
                             </tbody>
                         </table>

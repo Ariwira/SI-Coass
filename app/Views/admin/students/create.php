@@ -143,7 +143,6 @@
                                         <option value="">Pilih Jenis Kelamin</option>
                                         <option value="Male" <?= old('gender') == 'Male' ? 'selected' : '' ?>>Laki-laki</option>
                                         <option value="Female" <?= old('gender') == 'Female' ? 'selected' : '' ?>>Perempuan</option>
-                                        <option value="Other" <?= old('gender') == 'Other' ? 'selected' : '' ?>>Lainnya</option>
                                     </select>
                                     <?php if (session()->has('errors') && isset(session('errors')['gender'])): ?>
                                         <div class="ms-1 text-danger" style="font-size: 0.75rem;">

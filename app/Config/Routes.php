@@ -22,17 +22,21 @@ $routes->group('admin', ['filter' => 'auth:Admin'], function ($routes) {
     $routes->get('mahasiswa-coass', 'Admin\Mahasiswa::index');
     $routes->get('mahasiswa-coass/tambah-mahasiswa', 'Admin\Mahasiswa::create');
     $routes->post('mahasiswa-coass/store', 'Admin\Mahasiswa::store');
-    $routes->get('mahasiswa-coass/edit-mahasiswa/(:segment)', 'Admin\Mahasiswa::edit/$1');
+    // $routes->get('mahasiswa-coass/edit-mahasiswa/(:segment)', 'Admin\Mahasiswa::edit/$1');
     $routes->post('mahasiswa-coass/update/(:segment)', 'Admin\Mahasiswa::update/$1');
     $routes->post('mahasiswa-coass/delete-mahasiswa/(:segment)', 'Admin\Mahasiswa::delete/$1');
+    $routes->get('mahasiswa-coass/detail-mahasiswa/(:segment)', 'Admin\Mahasiswa::detail/$1');
+    $routes->post('mahasiswa-coass/updatePassword/(:segment)', 'Admin\Mahasiswa::updatePassword/$1');
 
     // Routes untuk Dokter
     $routes->get('dokter', 'Admin\Doctor::index');
     $routes->get('dokter/tambah-dokter', 'Admin\Doctor::create');
     $routes->post('dokter/store', 'Admin\Doctor::store');
-    $routes->get('dokter/edit-dokter/(:segment)', 'Admin\Doctor::edit/$1');
+    // $routes->get('dokter/edit-dokter/(:segment)', 'Admin\Doctor::edit/$1');
     $routes->post('dokter/update/(:segment)', 'Admin\Doctor::update/$1');
     $routes->post('dokter/delete-dokter/(:segment)', 'Admin\Doctor::delete/$1');
+    $routes->get('dokter/detail-dokter/(:segment)', 'Admin\Doctor::detail/$1');
+    $routes->post('dokter/update-password/(:segment)', 'Admin\Doctor::updatePassword/$1');
 
     // Routes untuk Stase
     $routes->get('stase', 'Admin\Stase::index');
@@ -41,15 +45,29 @@ $routes->group('admin', ['filter' => 'auth:Admin'], function ($routes) {
     $routes->get('stase/edit-stase/(:segment)', 'Admin\Stase::edit/$1');
     $routes->post('stase/update/(:segment)', 'Admin\Stase::update/$1');
     $routes->post('stase/delete-stase/(:segment)', 'Admin\Stase::delete/$1');
+    $routes->get('stase/detail-stase/(:segment)', 'Admin\stase::detail/$1');
+    $routes->get('stase/detail-stase/tambah-mahasiswa/(:segment)', 'Admin\Stase::createMahasiswa/$1');
+    $routes->post('stase/detail-stase/store', 'Admin\Stase::addMahasiswaToStase');
+    $routes->post('stase/detail-stase/delete-mahasiswa', 'Admin\Stase::removeMahasiswaFromStase');
+
 
     // Routes untuk Logbook
     $routes->get('logbook', 'Admin\Logbook::index');
-    $routes->get('logbook/tambah-logbook', 'Admin\Logbook::create');
+    $routes->get('logbook/tambah-logbook/(:segment)', 'Admin\Logbook::create/$1');
     $routes->post('logbook/store', 'Admin\Logbook::store');
     $routes->get('logbook/edit-logbook/(:segment)', 'Admin\Logbook::edit/$1');
     $routes->post('logbook/update/(:segment)', 'Admin\Logbook::update/$1');
     $routes->post('logbook/delete-logbook/(:segment)', 'Admin\Logbook::delete/$1');
     $routes->get('logbook/detail-logbook/(:segment)', 'Admin\Logbook::detail/$1');
+
+    // Routes untuk Penilaian
+    $routes->get('penilaian', 'Admin\Penilaian::index');
+    $routes->get('penilaian/detail-penilaian/(:segment)', 'Admin\penilaian::detail/$1');
+    $routes->get('penilaian/detail-penilaian/tambah-nilai/(:segment)/(:segment)', 'Admin\Penilaian::create/$1/$2');
+    $routes->post('penilaian/detail-penilaian/store/(:segment)/(:segment)', 'Admin\Penilaian::store/$1/$2');
+    $routes->get('penilaian/detail-penilaian/edit-nilai/(:segment)/(:segment)', 'Admin\Penilaian::edit/$1/$2');
+    $routes->post('penilaian/detail-penilaian/update/(:segment)/(:segment)', 'Admin\Penilaian::update/$1/$2');
+    $routes->post('penilaian/detail-penilaian/delete-nilai/(:segment)/(:segment)', 'Admin\Penilaian::delete/$1/$2');
 });
 
 

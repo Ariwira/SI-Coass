@@ -33,7 +33,7 @@ class Logbooks extends Migration
             ],
             'status' => [
                 'type'       => 'ENUM',
-                'constraint' => ['Not Verified', 'Verified', 'Pending'],
+                'constraint' => ['Not Verified', 'Verified', 'Rejected'],
                 'default'    => 'Not Verified',
             ],
             'feedback' => [

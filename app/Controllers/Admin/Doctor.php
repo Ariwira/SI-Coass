@@ -17,6 +17,7 @@ class Doctor extends Controller
         $this->doctorModel = new DoctorModel();
         $this->userModel = new UserModel();
         $this->encrypter = \Config\Services::encrypter();
+        \Config\Services::language()->setLocale('id');
     }
 
     public function index()
@@ -53,27 +54,79 @@ class Doctor extends Controller
     public function store()
     {
         $rules = [
-            'name' => 'required|string|min_length[3]|max_length[255]',
-            'id_card' => 'required|numeric|min_length[16]|max_length[100]|is_unique[doctors.id_card]',
-            'email'         => 'required|valid_email|is_unique[users.email]',
-            'date_of_birth' => 'required|valid_date',
-            'place_of_birth' => 'required|string|max_length[255]',
-            'gender' => 'required|in_list[Male,Female]',
-            'mother_tongue' => 'permit_empty|string|max_length[100]',
-            'marital_status' => 'permit_empty|in_list[Single,Married,Divorced,Widowed]',
-            'religion' => 'required|in_list[Islam,Hindu,Protestan, Katolik, Buddha, Konghucu]',
-            'blood_group' => 'required|in_list[A,B,AB,O,Unknown]',
-            'city' => 'required|string|max_length[255]',
-            'address' => 'required|string',
-            'state' => 'required|string|max_length[100]',
-            'qualification' => 'required|string|max_length[255]',
-            'nationality' => 'required|string|max_length[100]',
-            'phone' => 'required|string|max_length[20]',
-            'mobile_no' => 'permit_empty|string|max_length[20]',
-            'photo' => 'permit_empty|uploaded[photo]|max_size[photo,2048]|is_image[photo]|mime_in[photo,image/jpg,image/jpeg,image/png]',
+            'name' => [
+                'label' => 'Nama Lengkap',
+                'rules' => 'required|min_length[3]|max_length[255]'
+            ],
+            'id_card' => [
+                'label' => 'Nomor Identitas',
+                'rules' => 'required|numeric|min_length[16]|max_length[100]|is_unique[doctors.id_card]'
+            ],
+            'email' => [
+                'label' => 'Email',
+                'rules' => 'required|valid_email|is_unique[users.email]'
+            ],
+            'date_of_birth' => [
+                'label' => 'Tanggal Lahir',
+                'rules' => 'required|valid_date'
+            ],
+            'place_of_birth' => [
+                'label' => 'Tempat Lahir',
+                'rules' => 'required|max_length[255]'
+            ],
+            'gender' => [
+                'label' => 'Jenis Kelamin',
+                'rules' => 'required|in_list[Male,Female]'
+            ],
+            'mother_tongue' => [
+                'label' => 'Bahasa Ibu',
+                'rules' => 'permit_empty|max_length[100]'
+            ],
+            'marital_status' => [
+                'label' => 'Status Pernikahan',
+                'rules' => 'permit_empty|in_list[Single,Married,Divorced,Widowed]'
+            ],
+            'religion' => [
+                'label' => 'Agama',
+                'rules' => 'required|in_list[Islam,Hindu,Protestan,Katolik,Buddha,Konghucu]'
+            ],
+            'blood_group' => [
+                'label' => 'Golongan Darah',
+                'rules' => 'required|in_list[A,B,AB,O,Unknown]'
+            ],
+            'city' => [
+                'label' => 'Kota',
+                'rules' => 'required|max_length[255]'
+            ],
+            'address' => [
+                'label' => 'Alamat',
+                'rules' => 'required'
+            ],
+            'state' => [
+                'label' => 'Provinsi',
+                'rules' => 'required|max_length[100]'
+            ],
+            'qualification' => [
+                'label' => 'Kualifikasi',
+                'rules' => 'required|max_length[255]'
+            ],
+            'nationality' => [
+                'label' => 'Kewarganegaraan',
+                'rules' => 'required|max_length[100]'
+            ],
+            'phone' => [
+                'label' => 'Nomor Telepon',
+                'rules' => 'required|numeric|min_length[10]|max_length[15]'
+            ],
+            'mobile_no' => [
+                'label' => 'Nomor HP',
+                'rules' => 'permit_empty|numeric|min_length[10]|max_length[15]'
+            ],
+            'photo' => [
+                'label' => 'Foto Profil',
+                'rules' => 'permit_empty|uploaded[photo]|max_size[photo,2048]|is_image[photo]|mime_in[photo,image/jpg,image/jpeg,image/png]'
+            ]
         ];
-
-
 
         if (!$this->validate($rules)) {
             return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
@@ -157,37 +210,97 @@ class Doctor extends Controller
         $currentEmail = $user['email'];
 
         $rules = [
-            'name' => 'required|string|min_length[3]|max_length[255]',
-            'date_of_birth' => 'required|valid_date',
-            'place_of_birth' => 'required|string|max_length[255]',
-            'gender' => 'required|in_list[Male,Female]',
-            'mother_tongue' => 'permit_empty|string|max_length[100]',
-            'marital_status' => 'permit_empty|in_list[Single,Married,Divorced,Widowed]',
-            'religion' => 'required|in_list[Islam,Hindu,Protestan, Katolik, Buddha, Konghucu]',
-            'blood_group' => 'required|in_list[A,B,AB,O,Unknown]',
-            'city' => 'required|string|max_length[255]',
-            'address' => 'required|string',
-            'state' => 'required|string|max_length[100]',
-            'qualification' => 'required|string|max_length[255]',
-            'nationality' => 'required|string|max_length[100]',
-            'phone' => 'required|string|max_length[20]',
-            'mobile_no' => 'permit_empty|string|max_length[20]',
-            'photo' => 'permit_empty|uploaded[photo]|max_size[photo,2048]|is_image[photo]|mime_in[photo,image/jpg,image/jpeg,image/png]',
+            'name' => [
+                'label' => 'Nama Lengkap',
+                'rules' => 'required|min_length[3]|max_length[255]'
+            ],
+            'date_of_birth' => [
+                'label' => 'Tanggal Lahir',
+                'rules' => 'required|valid_date'
+            ],
+            'place_of_birth' => [
+                'label' => 'Tempat Lahir',
+                'rules' => 'required|max_length[255]'
+            ],
+            'gender' => [
+                'label' => 'Jenis Kelamin',
+                'rules' => 'required|in_list[Male,Female]'
+            ],
+            'mother_tongue' => [
+                'label' => 'Bahasa Ibu',
+                'rules' => 'permit_empty|max_length[100]'
+            ],
+            'marital_status' => [
+                'label' => 'Status Pernikahan',
+                'rules' => 'permit_empty|in_list[Single,Married,Divorced,Widowed]'
+            ],
+            'religion' => [
+                'label' => 'Agama',
+                'rules' => 'required|in_list[Islam,Hindu,Protestan,Katolik,Buddha,Konghucu]'
+            ],
+            'blood_group' => [
+                'label' => 'Golongan Darah',
+                'rules' => 'required|in_list[A,B,AB,O,Unknown]'
+            ],
+            'city' => [
+                'label' => 'Kota',
+                'rules' => 'required|max_length[255]'
+            ],
+            'address' => [
+                'label' => 'Alamat',
+                'rules' => 'required'
+            ],
+            'state' => [
+                'label' => 'Provinsi',
+                'rules' => 'required|max_length[100]'
+            ],
+            'qualification' => [
+                'label' => 'Kualifikasi',
+                'rules' => 'required|max_length[255]'
+            ],
+            'nationality' => [
+                'label' => 'Kewarganegaraan',
+                'rules' => 'required|max_length[100]'
+            ],
+            'phone' => [
+                'label' => 'Nomor Telepon',
+                'rules' => 'required|numeric|min_length[10]|max_length[15]'
+            ],
+            'mobile_no' => [
+                'label' => 'Nomor HP',
+                'rules' => 'permit_empty|numeric|min_length[10]|max_length[15]'
+            ],
+            'photo' => [
+                'label' => 'Foto Profil',
+                'rules' => 'permit_empty|uploaded[photo]|max_size[photo,2048]|is_image[photo]|mime_in[photo,image/jpg,image/jpeg,image/png]'
+            ]
         ];
 
         // Aturan validasi untuk email
         $postEmail = $this->request->getPost('email');
         if ($postEmail !== $currentEmail) {
-            $rules['email'] = 'required|valid_email|is_unique[users.email]';
+            $rules['email'] = [
+                'label' => 'Email',
+                'rules' => 'required|valid_email|is_unique[users.email]'
+            ];
         } else {
-            $rules['email'] = 'required|valid_email';
+            $rules['email'] = [
+                'label' => 'Email',
+                'rules' => 'required|valid_email'
+            ];
         }
 
         $postIdCard = $this->request->getPost('id_card');
         if ($postIdCard !== $doctor['id_card']) {
-            $rules['id_card'] = 'required|numeric|min_length[16]|max_length[100]|is_unique[doctors.id_card]';
+            $rules['id_card'] = [
+                'label' => 'Nomor Identitas',
+                'rules' => 'required|numeric|min_length[16]|max_length[100]|is_unique[doctors.id_card]'
+            ];
         } else {
-            $rules['id_card'] = 'required|numeric';
+            $rules['id_card'] = [
+                'label' => 'Nomor Identitas',
+                'rules' => 'required|numeric'
+            ];
         }
 
         // Validate the input
@@ -283,6 +396,71 @@ class Doctor extends Controller
             $db->transRollback();
             return redirect()->to('admin/dokter')->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
         }
+    }
+
+    public function detail($encryptedID)
+    {
+        try {
+            $id = $this->encrypter->decrypt(hex2bin($encryptedID));
+        } catch (\Exception $e) {
+            throw new \CodeIgniter\Exceptions\PageNotFoundException('Data tidak ditemukan');
+        }
+
+        $doctor = $this->doctorModel->find($id);
+        if (!$doctor) {
+            throw new \CodeIgniter\Exceptions\PageNotFoundException('Data tidak ditemukan');
+        }
+
+        $userData = $this->userModel->find($doctor['user_id']);
+        $doctor['email'] = $userData['email'] ?? '';
+
+        $data = [
+            'title' => 'Detail Dokter | SI-COASS',
+            'doctor' => $doctor,
+            'encryptedID' => $encryptedID // Kirim kembali Encrypted ID
+        ];
+
+        return view('admin/doctors/detail', $data);
+    }
+
+
+    public function updatePassword($encryptedID)
+    {
+        try {
+            $id = $this->encrypter->decrypt(hex2bin($encryptedID));
+        } catch (\Exception $e) {
+            throw new \CodeIgniter\Exceptions\PageNotFoundException('Data tidak ditemukan');
+        }
+
+        $doctor = $this->doctorModel->find($id);
+        if (!$doctor) {
+            throw new \CodeIgniter\Exceptions\PageNotFoundException('Data tidak ditemukan');
+        }
+
+        $rules = [
+            'password' => [
+                'label' => 'Kata Sandi',
+                'rules' => 'required|min_length[8]'
+            ],
+            'confirm_password' => [
+                'label' => 'Konfirmasi Kata Sandi',
+                'rules' => 'required|matches[password]'
+            ]
+        ];
+
+
+        if (!$this->validate($rules)) {
+            return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
+        }
+
+        $userId = $doctor['user_id'];
+        $newPassword = password_hash($this->request->getPost('password'), PASSWORD_DEFAULT);
+
+        $this->userModel->update($userId, [
+            'password' => $newPassword,
+        ]);
+
+        return redirect()->to('admin/dokter')->with('success', 'Password dokter berhasil diperbarui');
     }
 
     private function generateDefaultPassword()

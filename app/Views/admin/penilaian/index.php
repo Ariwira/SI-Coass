@@ -7,9 +7,6 @@
             <div class="card mb-4">
                 <div class="card-header pb-0 d-flex justify-content-between align-items-center">
                     <h5>Daftar Stase</h5>
-                    <a class="btn bg-gradient-success" href="<?= base_url('admin/stase/tambah-stase') ?>">
-                        <i class="fa-solid fa-plus fa-lg me-2"></i> <span>Tambah Stase</span>
-                    </a>
                 </div>
 
                 <div class="card-body px-0 pt-0 pb-2">
@@ -105,55 +102,12 @@
                                             <td>
                                                 <p class="text-xs font-weight-bold mb-0"><?= $stase['end_date']; ?></p>
                                             </td>
-                                            <td class="pe-4 text-center position-relative">
-                                                <div class="dropdown">
-                                                    <button style="all: unset;" class="" type="button" id="dropdownMenuButton<?= $encryptedID ?>" data-bs-toggle="dropdown" aria-label="edit button" aria-expanded="false">
-                                                        <i class="fa-solid fa-ellipsis-vertical" style="width: 48px;"></i>
-                                                    </button>
-                                                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton<?= $encryptedID ?>">
-                                                        <li>
-                                                            <a class="dropdown-item d-flex align-items-center" href="<?= base_url('admin/stase/detail-stase/' . $encryptedID); ?>">
-                                                                <i class="fa-solid fa-eye me-2" style="width: 16px;"></i> <span>Detail</span>
-                                                            </a>
-                                                        </li>
-                                                        <li>
-                                                            <a class="dropdown-item d-flex align-items-center" href="<?= base_url('admin/stase/edit-stase/' . $encryptedID); ?>">
-                                                                <i class="fa-solid fa-edit me-2" style="width: 16px;"></i>
-                                                                <span>Edit</span>
-                                                            </a>
-                                                        </li>
-                                                        <li>
-                                                            <button class="dropdown-item d-flex align-items-center text-danger" data-bs-toggle="modal" data-bs-target="#deleteModal<?= $encryptedID ?>">
-                                                                <i class="fa-solid fa-trash me-2" style="width: 16px;"></i>
-                                                                <span>Hapus</span>
-                                                            </button>
-                                                        </li>
-                                                    </ul>
-                                                </div>
+                                            <td class="align-middle text-center pe-4">
+                                                <a class="text-secondary fw-bold text-sm" href="<?= base_url('admin/penilaian/detail-penilaian/' . esc($encryptedID)) ?>">
+                                                    <i class="fa-solid fa-eye me-1" style="width: 16px;"></i> <span>Detail</span>
+                                                </a>
                                             </td>
                                         </tr>
-
-                                        <!-- Modal Konfirmasi Hapus -->
-                                        <div class="modal fade" id="deleteModal<?= $encryptedID ?>" tabindex="-1" aria-labelledby="deleteModalLabel<?= $encryptedID ?>" aria-hidden="true">
-                                            <div class="modal-dialog modal-dialog-centered" role="document">
-                                                <div class="modal-content bg-white">
-                                                    <div class="modal-header">
-                                                        <h5 class="modal-title" id="deleteModalLabel<?= $encryptedID ?>">Konfirmasi Hapus</h5>
-                                                        <button type="button" class="btn-close fa-solid fa-xmark text-dark" data-bs-dismiss="modal" aria-label="Close"></button>
-                                                    </div>
-                                                    <div class="modal-body">
-                                                        Apakah Anda yakin ingin menghapus stase ini?
-                                                    </div>
-                                                    <div class="modal-footer">
-                                                        <button type="button" class="btn bg-gradient-info" data-bs-dismiss="modal">Batal</button>
-                                                        <form action="<?= base_url('admin/stase/delete-stase/' . $encryptedID); ?>" method="POST">
-                                                            <?= csrf_field() ?>
-                                                            <button type="submit" class="btn bg-gradient-danger">Hapus</button>
-                                                        </form>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
                                     <?php endforeach; ?>
                                 <?php endif; ?>
                             </tbody>
@@ -165,10 +119,7 @@
 
                     <div class="px-4 py-2 text-center">
                         <p class="text-xs text-secondary mb-0">
-                            Menampilkan <?= count($stases) ?> dari <?= $pager->getTotal('stases') ?> data stase
-                            <?php if (!empty($keyword)): ?>
-                                untuk pencarian "<?= $keyword ?>"
-                            <?php endif; ?>
+                            Menampilkan <?= count($stases) ?> dari <?= esc($pager->getTotal('stases')) ?> data stase
                         </p>
                     </div>
                 </div>

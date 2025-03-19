@@ -46,7 +46,7 @@ class MahasiswaModel extends Model
     {
         return $this->select('mahasiswa_coass.*, users.email')
             ->join('users', 'users.id = mahasiswa_coass.user_id')
-            ->orderBy('mahasiswa_coass.name', 'ASC');
+            ->orderBy('mahasiswa_coass.updated_at', 'DESC');
     }
 
     public function getLatestStudents($limit = 5)

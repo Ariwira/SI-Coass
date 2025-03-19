@@ -40,32 +40,32 @@ class LogbookModel extends Model
     public function getLogbooksWithStase()
     {
         return $this->select('logbooks.*, stase.name as stase_name')
-                    ->join('stase', 'stase.stase_id = logbooks.stase_id')
-                    ->findAll();
+            ->join('stase', 'stase.stase_id = logbooks.stase_id')
+            ->findAll();
     }
 
     public function getLogbooks($perPage, $page)
     {
         return $this->select('logbooks.*, stase.name as stase_name')
-                    ->join('stase', 'stase.stase_id = logbooks.stase_id')
-                    ->paginate($perPage, 'logbooks', $page);
+            ->join('stase', 'stase.stase_id = logbooks.stase_id')
+            ->paginate($perPage, 'logbooks', $page);
     }
 
     public function searchLogbooks($keyword, $perPage, $page)
     {
         return $this->select('logbooks.*, stase.name as stase_name')
-                    ->join('stase', 'stase.stase_id = logbooks.stase_id')
-                    ->like('activity', $keyword)
-                    ->orLike('date', $keyword)
-                    ->paginate($perPage, 'logbooks', $page);
+            ->join('stase', 'stase.stase_id = logbooks.stase_id')
+            ->like('activity', $keyword)
+            ->orLike('date', $keyword)
+            ->paginate($perPage, 'logbooks', $page);
     }
 
     public function getLogbookById($id)
     {
         return $this->select('logbooks.*, stase.name as stase_name')
-                    ->join('stase', 'stase.stase_id = logbooks.stase_id')
-                    ->where('logbook_id', $id)
-                    ->first();
+            ->join('stase', 'stase.stase_id = logbooks.stase_id')
+            ->where('logbook_id', $id)
+            ->first();
     }
 
     protected $validationRules = [
@@ -73,7 +73,7 @@ class LogbookModel extends Model
         'stase_id' => 'required|integer',
         'date'     => 'required|valid_date',
         'activity' => 'required|string',
-        'status'   => 'required|in_list[Not Verified,Verified,Pending]',
+        'status'   => 'permit_empty|in_list[Not Verified,Verified,Rejected]',
         'feedback' => 'permit_empty|string',
     ];
 }

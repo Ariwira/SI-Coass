@@ -18,6 +18,9 @@ class Auth extends Controller
             return $this->redirectBasedOnRole();
         }
 
+        // Cek token "Remember Me" di cookie
+        $this->verifyRememberMe();
+
         return view('auth/login');
     }
 
@@ -79,6 +82,8 @@ class Auth extends Controller
 
         set_cookie('remember_token', $token, 30 * 24 * 60 * 60, '/', '', false, true);
         setcookie('remember_token', $token, time() + (30 * 24 * 60 * 60), "/"); // Alternatif manual
+
+        $_COOKIE['remember_token'] = $token;
 
 
         log_message('info', 'Remember Me Token Set: ' . $token);

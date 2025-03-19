@@ -5,10 +5,18 @@
     <div class="row">
         <div class="col-12">
             <div class="card mb-4">
+
                 <div class="card-header pb-0">
                     <h5>Tambah Stase</h5>
                 </div>
-                <div class="card-body">
+                <div class="card-body pt-0">
+                    <?php if (session()->has('errors')): ?>
+                        <div class="alert alert-danger py-3 text-white fw-bold fs-6">
+                            <?php foreach (session('errors') as $error): ?>
+                                <i class="fa-solid fa-circle-info me-2"></i><?= esc($error) ?>
+                            <?php endforeach; ?>
+                        </div>
+                    <?php endif; ?>
                     <form action="<?= base_url('admin/stase/store') ?>" method="POST">
                         <?= csrf_field(); ?>
                         <div class="mb-3">

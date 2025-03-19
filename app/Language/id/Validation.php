@@ -2,33 +2,39 @@
 
 // app/Language/id/Validation.php
 
+
 return [
-    // Pesan Validasi Inti
     'required'      => '{field} tidak boleh kosong.',
     'is_unique'     => '{field} sudah terdaftar.',
     'valid_email'   => '{field} harus berisi alamat email yang valid.',
     'min_length'    => '{field} minimal {param} karakter.',
     'max_length'    => '{field} maksimal {param} karakter.',
+    'exact_length'  => '{field} harus berisi tepat {param} karakter.',
     'matches'       => '{field} harus sama dengan {param}.',
+    'differs'       => '{field} harus berbeda dari {param}.',
     'numeric'       => '{field} harus berupa angka.',
     'integer'       => '{field} harus berupa angka bulat.',
+    'decimal'       => '{field} harus berupa angka desimal.',
+    'greater_than'  => '{field} harus lebih besar dari {param}.',
+    'greater_than_equal_to' => '{field} harus lebih besar atau sama dengan {param}.',
+    'less_than'     => '{field} harus lebih kecil dari {param}.',
+    'less_than_equal_to' => '{field} harus lebih kecil atau sama dengan {param}.',
+    'in_list'       => '{field} harus salah satu dari: {param}.',
+    'alpha'         => '{field} hanya boleh berisi huruf.',
+    'alpha_numeric' => '{field} hanya boleh berisi huruf dan angka.',
+    'alpha_numeric_space' => '{field} hanya boleh berisi huruf, angka, dan spasi.',
+    'alpha_dash'    => '{field} hanya boleh berisi huruf, angka, garis bawah, dan tanda hubung.',
+    'valid_url'     => '{field} harus berisi URL yang valid.',
+    'valid_ip'      => '{field} harus berisi alamat IP yang valid.',
+    'valid_mac'     => '{field} harus berisi alamat MAC yang valid.',
+    'valid_base64'  => '{field} harus berisi string Base64 yang valid.',
+    'valid_json'    => '{field} harus berisi JSON yang valid.',
+    'valid_date'    => '{field} harus berisi tanggal yang valid.',
+    'valid_time'    => '{field} harus berisi waktu yang valid.',
+    'valid_datetime' => '{field} harus berisi tanggal dan waktu yang valid.',
     'uploaded'      => 'Gagal mengunggah {field}. Silakan coba lagi.',
-
-    // Label Nama Bidang
-    'field_labels' => [
-        'name' => 'Nama Lengkap',
-        'nim' => 'NIM',
-        'email' => 'Email',
-        'date_of_birth' => 'Tanggal Lahir',
-        'place_of_birth' => 'Tempat Lahir',
-        'gender' => 'Jenis Kelamin',
-        'religion' => 'Agama',
-        'blood_group' => 'Golongan Darah',
-        'phone' => 'Nomor Telepon',
-        'mobile_no' => 'Nomor HP',
-        'address' => 'Alamat',
-        'university' => 'Universitas',
-        'year' => 'Tahun Angkatan',
-        'photo' => 'Foto',
-    ],
+    'max_size'      => '{field} tidak boleh lebih dari {param} KB.',
+    'is_image'      => '{field} harus berupa gambar.',
+    'mime_in'       => '{field} harus memiliki format {param}.',
+    'ext_in'        => '{field} harus memiliki ekstensi {param}.',
 ];

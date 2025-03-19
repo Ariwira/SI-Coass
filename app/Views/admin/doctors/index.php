@@ -113,12 +113,6 @@
                                                             </a>
                                                         </li>
                                                         <li>
-                                                            <a class="dropdown-item d-flex align-items-center" href="<?= base_url('admin/dokter/edit-dokter/' . $encryptedID) ?>">
-                                                                <i class="fa-solid fa-edit me-2" style="width: 16px;"></i>
-                                                                <span>Edit</span>
-                                                            </a>
-                                                        </li>
-                                                        <li>
                                                             <button class="dropdown-item d-flex align-items-center text-danger" data-bs-toggle="modal" data-bs-target="#deleteModal<?= $encryptedID ?>">
                                                                 <i class="fa-solid fa-trash me-2" style="width: 16px;"></i>
                                                                 <span>Hapus</span>

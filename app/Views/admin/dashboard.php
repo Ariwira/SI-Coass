@@ -23,7 +23,7 @@
         </div>
         <div class="col-lg-3 col-md-3 col-12 py-2   ">
             <div class="card">
-                <span class="mask bg-gradient-warning opacity-10 border-radius-lg"></span>
+                <span class="mask bg-gradient-primary opacity-10 border-radius-lg"></span>
                 <div class="card-body p-3 position-relative">
                     <div class="row">
                         <div class="text-start">
@@ -33,7 +33,7 @@
                             <h5 class="text-white font-weight-bolder mb-0 mt-3">
                                 <?= $totalMahasiswa; ?>
                             </h5>
-                            <span class="text-white text-sm">Total Mahasiswa Coass</span>
+                            <span class="text-white text-sm">Total Mahasiswa</span>
                         </div>
                     </div>
                 </div>
@@ -93,7 +93,7 @@
                 <table class="table align-items-center mb-0">
                     <thead>
                         <tr>
-                            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Mahasiswa</th>
+                            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Nama Mahasiswa</th>
                             <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">NIM</th>
                             <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Universitas</th>
                             <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Nomor Telepon</th>

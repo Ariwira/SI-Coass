@@ -43,7 +43,7 @@
                         <table class="table align-items-center mb-0">
                             <thead>
                                 <tr>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Mahasiswa</th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Nama Mahasiswa</th>
                                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">NIM</th>
                                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Universitas</th>
                                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Nomor Telepon</th>
@@ -111,12 +111,6 @@
                                                         <li>
                                                             <a class="dropdown-item d-flex align-items-center" href="<?= base_url('admin/mahasiswa-coass/detail-mahasiswa/' . $encryptedID) ?>">
                                                                 <i class="fa-solid fa-eye me-2" style="width: 16px;"></i> <span>Detail</span>
-                                                            </a>
-                                                        </li>
-                                                        <li>
-                                                            <a class="dropdown-item d-flex align-items-center" href="<?= base_url('admin/mahasiswa-coass/edit-mahasiswa/' . $encryptedID) ?>">
-                                                                <i class="fa-solid fa-edit me-2" style="width: 16px;"></i>
-                                                                <span>Edit</span>
                                                             </a>
                                                         </li>
                                                         <li>
