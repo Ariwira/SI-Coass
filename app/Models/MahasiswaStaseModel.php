@@ -30,6 +30,15 @@ class MahasiswaStaseModel extends Model
      * @param int $staseId
      * @return array
      */
+
+    public function getStasesByCoassId($coassId)
+    {
+        return $this->select('mahasiswa_stase.stase_id, stase.name')
+                    ->join('stase', 'stase.stase_id = mahasiswa_stase.stase_id') // Use stase_id for the join
+                    ->where('mahasiswa_stase.coass_id', $coassId)
+                    ->findAll();
+    }
+
     public function getMahasiswaByStaseId($staseId)
     {
         return $this->where('stase_id', $staseId)->findAll();

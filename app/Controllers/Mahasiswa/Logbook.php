@@ -4,6 +4,8 @@ namespace App\Controllers\Mahasiswa;
 
 use CodeIgniter\Controller;
 use App\Models\LogbookModel;
+use App\Models\StaseModel;
+use App\Models\MahasiswaStaseModel;
 
 class Logbook extends Controller
 {
@@ -16,11 +18,14 @@ class Logbook extends Controller
 
     public function index()
     {
+        // Ambil coass_id dari sesi pengguna yang sedang login
+        $coass_id = session()->get('coass_id'); // Pastikan Anda menyimpan coass_id di sesi saat login
+
         $currentPage = $this->request->getVar('page') ? $this->request->getVar('page') : 1;
         $perPage = 10; // Jumlah data per halaman
 
-        // Ambil data logbook dengan pagination
-        $logbooks = $this->logbookModel->getLogbooks($perPage, $currentPage);
+        // Ambil data logbook berdasarkan coass_id dengan pagination
+        $logbooks = $this->logbookModel->getLogbooksByCoassId($coass_id, $perPage, $currentPage);
 
         // Inisialisasi pager
         $pager = $this->logbookModel->pager;
@@ -35,16 +40,23 @@ class Logbook extends Controller
 
     public function create()
     {
-        return view('mahasiswa/logbooks/buat');
+        $mahasiswaStaseModel = new MahasiswaStaseModel();
+        
+        $coass_id = session()->get('coass_id');
+
+        $stases = $mahasiswaStaseModel->getStasesByCoassId($coass_id);
+
+        return view('mahasiswa/logbooks/buat', [
+            'stases' => $stases
+        ]);
     }
 
     public function store()
     {
         $data = $this->request->getPost();
-        
-        // Tambahkan status default jika tidak ada
+        //status default
         if (!isset($data['status'])) {
-            $data['status'] = 'Not Verified'; // Atau status default lainnya
+            $data['status'] = 'Not Verified';
         }
 
         log_message('debug', 'Data yang diterima: ' . print_r($data, true)); // Log data yang diterima

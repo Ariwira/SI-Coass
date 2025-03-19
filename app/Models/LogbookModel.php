@@ -60,6 +60,14 @@ class LogbookModel extends Model
             ->paginate($perPage, 'logbooks', $page);
     }
 
+    public function getLogbooksByCoassId($coass_id, $perPage, $page)
+    {
+        return $this->select('logbooks.*, stase.name as stase_name')
+                    ->join('stase', 'stase.stase_id = logbooks.stase_id')
+                    ->where('coass_id', $coass_id)
+                    ->paginate($perPage, 'logbooks', $page);
+    }
+
     public function getLogbookById($id)
     {
         return $this->select('logbooks.*, stase.name as stase_name')

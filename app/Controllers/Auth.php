@@ -60,6 +60,7 @@ class Auth extends Controller
         } elseif ($user['role'] === 'Mahasiswa Coass') {
             $query = $db->table('mahasiswa_coass')->where('user_id', $user['id'])->get()->getRow();
             $name = $query->name ?? 'Mahasiswa';
+            $coass_id = $query->coass_id ?? null;
         }
 
         session()->set([
@@ -67,6 +68,7 @@ class Auth extends Controller
             'email'     => $user['email'],
             'name'      => $name,
             'role'      => $user['role'],
+            'coass_id'  => $coass_id,   
             'logged_in' => true
         ]);
     }

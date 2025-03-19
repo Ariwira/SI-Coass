@@ -14,12 +14,17 @@
                         
                         <div class="mb-3">
                             <label for="coass_id" class="form-label">ID Coass</label>
-                            <input type="number" class="form-control" id="coass_id" name="coass_id" required>
+                            <input type="number" class="form-control" id="coass_id" name="coass_id" value="<?= session()->get('coass_id') ?>" required readonly>
                         </div>
                         
                         <div class="mb-3">
-                            <label for="stase_id" class="form-label">ID Stase</label>
-                            <input type="number" class="form-control" id="stase_id" name="stase_id" required>
+                            <label for="stase_id" class="form-label">Pilih Stase</label>
+                            <select class="form-control" id="stase_id" name="stase_id" required>
+                                <option value="" disabled selected>Pilih Stase</option>
+                                <?php foreach ($stases as $stase): ?>
+                                    <option value="<?= $stase['id']; ?>"><?= $stase['name']; ?></option>
+                                <?php endforeach; ?>
+                            </select>
                         </div>
                         
                         <div class="mb-3">
