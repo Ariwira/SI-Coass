@@ -51,6 +51,7 @@ class Auth extends Controller
     {
         $db = \Config\Database::connect();
         $name = 'User';
+        $coass_id = null;
 
         if ($user['role'] === 'Admin') {
             $name = 'Administrator';
