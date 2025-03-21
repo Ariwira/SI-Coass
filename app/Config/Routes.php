@@ -94,4 +94,9 @@ $routes->group('mahasiswa', ['filter' => 'auth:Mahasiswa Coass'], function ($rou
     $routes->get('stase', 'Mahasiswa\Stase::index');
     $routes->get('stase/detail-stase/(:segment)', 'Mahasiswa\Stase::detail/$1');
     $routes->get('logbook/tambah/(:segment)', 'Mahasiswa\Logbook::create/$1');
+
+    // Routes untuk Profil Mahasiswa
+    $routes->get('profil-mahasiswa', 'Mahasiswa\MahasiswaProfile::index');
+    $routes->post('profil-mahasiswa/update', 'Mahasiswa\MahasiswaProfile::update');
+    $routes->post('profil-mahasiswa/update-password', 'Mahasiswa\MahasiswaProfile::updatePassword');
 });

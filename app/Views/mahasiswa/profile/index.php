@@ -4,12 +4,21 @@
 <div class="container-fluid py-4">
     <div class="row">
         <div class="col-12">
+            <div class="alert bg-gradient-info mb-3 text-white fw-bold fs-6">
+                <i class="fa-solid fa-circle-info me-2"></i>segera update password default anda. abaikan informasi ini jika sudah melakukan update password.
+            </div>
             <div class="card mb-4">
                 <div class="card-header pb-0">
                     <h5>Profil Mahasiswa</h5>
                 </div>
+
+                <?php if (session()->getFlashdata('success')): ?>
+                    <div class="alert alert-success mx-4 mb-0 py-3 text-white fw-bold fs-6">
+                        <i class="fa-solid fa-circle-info me-2"></i><?= session()->getFlashdata('success') ?>
+                    </div>
+                <?php endif; ?>
                 <div class="card-body">
-                    <form action="<?= base_url('admin/mahasiswa-coass/update/' . $encryptedID) ?>" method="POST" enctype="multipart/form-data">
+                    <form action="<?= base_url('mahasiswa/profil-mahasiswa/update') ?>" method="POST" enctype="multipart/form-data">
                         <?= csrf_field() ?>
 
                         <div class="d-flex align-items-stretch">
@@ -69,17 +78,12 @@
                                         <div class="form-group mb-0">
                                             <label for="nim">NIM</label>
                                             <input type="text"
-                                                class="form-control <?= (session()->has('errors') && isset(session('errors')['nim'])) ? 'is-invalid' : '' ?>"
+                                                class="form-control"
                                                 id="nim"
                                                 name="nim"
                                                 value="<?= old('nim', $student['nim']) ?>"
                                                 placeholder="Masukkan NIM"
                                                 required disabled>
-                                            <?php if (session()->has('errors') && isset(session('errors')['nim'])): ?>
-                                                <div class="text-danger" style="font-size: 0.75rem;">
-                                                    <?= session('errors')['nim'] ?>
-                                                </div>
-                                            <?php endif; ?>
                                         </div>
                                     </div>
                                     <div class="flex-grow-1">
@@ -92,11 +96,6 @@
                                                 value="<?= old('email', $student['email']) ?>"
                                                 placeholder="contoh@domain.com"
                                                 required disabled>
-                                            <?php if (session()->has('errors') && isset(session('errors')['email'])): ?>
-                                                <div class="text-danger" style="font-size: 0.75rem;">
-                                                    <?= session('errors')['email'] ?>
-                                                </div>
-                                            <?php endif; ?>
                                             <!-- Hidden input for email -->
                                             <input type="hidden" name="email" value="<?= esc(old('email', $student['email'])) ?>">
                                         </div>
@@ -259,7 +258,7 @@
                                     <?php endif; ?>
                                 </div>
                             </div>
-                            <div class="col-md-4 col-sm-12 ps-0 ">
+                            <div class="col-md-4 col-sm-12 ps-0">
                                 <div class="form-group">
                                     <label for="blood_group">Golongan Darah</label>
                                     <select class="form-control <?= (session()->has('errors') && isset(session('errors')['blood_group'])) ? 'is-invalid' : '' ?>"
@@ -300,7 +299,6 @@
                         <!-- Tombol Submit dan Kembali -->
                         <div class="form-group mt-4">
                             <button type="submit" class="btn bg-gradient-success me-1">Simpan</button>
-                            <a href="<?= base_url('admin/mahasiswa-coass') ?>" class="btn bg-gradient-info">Kembali</a>
                         </div>
                     </form>
                 </div>
@@ -312,7 +310,7 @@
                     <h5>Ubah Password</h5>
                 </div>
                 <div class="card-body">
-                    <form action="<?= base_url('admin/mahasiswa-coass/updatePassword/' . $encryptedID) ?>" method="post">
+                    <form action="<?= base_url('mahasiswa/profil-mahasiswa/update-password') ?>" method="post">
                         <?= csrf_field() ?>
                         <div class="form-group mb-3">
                             <label for="password">Password Baru</label>
@@ -323,8 +321,6 @@
                             <input type="password" name="confirm_password" class="form-control" required>
                         </div>
                         <button type="submit" class="btn bg-gradient-success">Ubah Password</button>
-                        <a href="<?= base_url('admin/mahasiswa-coass') ?>" class="btn bg-gradient-info">Kembali</a>
-
                     </form>
                 </div>
             </div>
@@ -348,21 +344,7 @@
 
                 reader.onload = function(e) {
                     const profileImage = document.getElementById('profile-image');
-
-                    // Jika elemen adalah div (placeholder), ganti dengan img
-                    if (profileImage.tagName === 'DIV') {
-                        const img = document.createElement('img');
-                        img.id = 'profile-image';
-                        img.src = e.target.result;
-                        img.className = 'img-thumbnail';
-                        img.style = 'width: 100%; object-fit: cover;';
-                        img.alt = 'Profile Photo';
-
-                        profileImage.parentNode.replaceChild(img, profileImage);
-                    } else {
-                        // Jika sudah img, hanya update src
-                        profileImage.src = e.target.result;
-                    }
+                    profileImage.src = e.target.result;
                 };
 
                 reader.readAsDataURL(this.files[0]);
