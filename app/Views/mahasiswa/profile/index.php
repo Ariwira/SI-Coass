@@ -13,7 +13,7 @@
                 </div>
 
                 <?php if (session()->getFlashdata('success')): ?>
-                    <div class="alert alert-success mx-4 mb-0 py-3 text-white fw-bold fs-6">
+                    <div class="alert alert-success mx-4 mb-0 mt-3 py-3 text-white fw-bold fs-6">
                         <i class="fa-solid fa-circle-info me-2"></i><?= session()->getFlashdata('success') ?>
                     </div>
                 <?php endif; ?>

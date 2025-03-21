@@ -7,7 +7,7 @@
             <div class="card mb-4">
                 <div class="card-header pb-0 d-flex justify-content-between align-items-center">
                     <h5>Daftar Logbook</h5>
-                    <a class="btn bg-gradient-success" href="<?= base_url('mahasiswa/logbook/create') ?>">
+                    <a class="btn bg-gradient-success" href="<?= base_url('mahasiswa/logbook/tambah-logbook') ?>">
                         <i class="fa-solid fa-plus fa-lg me-2"></i> <span>Tambah Logbook</span>
                     </a>
                 </div>
@@ -18,7 +18,7 @@
                             <i class="fa-solid fa-circle-info me-2"></i><?= session()->getFlashdata('success') ?>
                         </div>
                     <?php endif; ?>
-                    
+
                     <!-- Search Form -->
                     <div class="px-4 pt-3">
                         <form action="<?= base_url('mahasiswa/logbook') ?>" method="GET" class="mb-3">
@@ -97,7 +97,7 @@
                                                     </button>
                                                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton<?= $logbook['logbook_id'] ?>">
                                                         <li>
-                                                            <a class="dropdown-item d-flex align-items-center" href="<?= base_url('mahasiswa/logbook/edit/' . $logbook['logbook_id']) ?>">
+                                                            <a class="dropdown-item d-flex align-items-center" href="<?= base_url('mahasiswa/logbook/edit-logbook/' . $logbook['logbook_id']) ?>">
                                                                 <i class="fa-solid fa-edit me-2" style="width: 16px;"></i>
                                                                 <span>Edit</span>
                                                             </a>

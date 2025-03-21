@@ -84,11 +84,11 @@ $routes->group('mahasiswa', ['filter' => 'auth:Mahasiswa Coass'], function ($rou
 
     // Routes untuk Logbook
     $routes->get('logbook', 'Mahasiswa\Logbook::index');
-    $routes->get('logbook/create', 'Mahasiswa\Logbook::create');
+    $routes->get('logbook/tambah-logbook', 'Mahasiswa\Logbook::create');
     $routes->post('logbook/store', 'Mahasiswa\Logbook::store');
-    $routes->get('logbook/edit/(:num)', 'Mahasiswa\Logbook::edit/$1');
-    $routes->post('logbook/update/(:num)', 'Mahasiswa\Logbook::update/$1');
-    $routes->get('logbook/delete/(:num)', 'Mahasiswa\Logbook::delete/$1');
+    $routes->get('logbook/edit-logbook/(:segment)', 'Mahasiswa\Logbook::edit/$1');
+    $routes->post('logbook/update/(:segment)', 'Mahasiswa\Logbook::update/$1');
+    $routes->get('logbook/delete/(:segment)', 'Mahasiswa\Logbook::delete/$1');
 
     // Routes untuk Stase
     $routes->get('stase', 'Mahasiswa\Stase::index');

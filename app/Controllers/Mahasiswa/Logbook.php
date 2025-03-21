@@ -31,7 +31,7 @@ class Logbook extends Controller
         $pager = $this->logbookModel->pager;
 
         // Kirim data ke view
-        return view('mahasiswa/logbooks/main', [
+        return view('mahasiswa/logbooks/index', [
             'logbooks' => $logbooks,
             'pager' => $pager,
             'keyword' => $this->request->getVar('keyword') // Jika Anda menggunakan pencarian
@@ -41,12 +41,12 @@ class Logbook extends Controller
     public function create()
     {
         $mahasiswaStaseModel = new MahasiswaStaseModel();
-        
+
         $coass_id = session()->get('coass_id');
 
         $stases = $mahasiswaStaseModel->getStasesByCoassId($coass_id);
 
-        return view('mahasiswa/logbooks/buat', [
+        return view('mahasiswa/logbooks/create', [
             'stases' => $stases
         ]);
     }
