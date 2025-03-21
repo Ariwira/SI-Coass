@@ -78,11 +78,11 @@
                                                     case 'Verified':
                                                         echo '<span class="badge badge-sm bg-gradient-success w-75 text-center">Disetujui</span>';
                                                         break;
-                                                    case 'Pending':
-                                                        echo '<span class="badge badge-sm bg-gradient-warning w-75 text-center">Ditolak</span>';
+                                                    case 'Rejected':
+                                                        echo '<span class="badge badge-sm bg-gradient-danger w-75 text-center">Ditolak</span>';
                                                         break;
                                                     case 'Not Verified':
-                                                        echo '<span class="badge badge-sm bg-gradient-secondary w-75 text-center">Diproses</span>';
+                                                        echo '<span class="badge badge-sm bg-gradient-warning w-75 text-center">Diproses</span>';
                                                         break;
                                                     default:
                                                         echo '<span class="badge badge-sm bg-gradient-secondary w-75 text-center">Tidak Diketahui</span>';
