@@ -1,78 +1,180 @@
-<<<<<<< HEAD
-<<<<<<< HEAD
-# SI-Coass
-=======
-=======
->>>>>>> a60c07ad843b3c0f24fa52de7d334af4824af77c
-# CodeIgniter 4 Application Starter
+# 🦷 Sistem Informasi Coass RSPGM Universitas Udayana
 
-## What is CodeIgniter?
+![UNUD Logo](https://upload.wikimedia.org/wikipedia/id/2/2d/Logo-unud-baru.png)
 
-CodeIgniter is a PHP full-stack web framework that is light, fast, flexible and secure.
-More information can be found at the [official site](https://codeigniter.com).
+## 🏥 Overview
 
-This repository holds a composer-installable app starter.
-It has been built from the
-[development repository](https://github.com/codeigniter4/CodeIgniter4).
+Welcome to the Sistem Informasi Coass for Rumah Sakit Pendidikan Gigi & Mulut (RSPGM) Universitas Udayana! This web-based platform streamlines the management of clinical rotations for dental co-assistant students at Udayana University's Dental Teaching Hospital.
 
-More information about the plans for version 4 can be found in [CodeIgniter 4](https://forum.codeigniter.com/forumdisplay.php?fid=28) on the forums.
+### Key Features
 
-You can read the [user guide](https://codeigniter.com/user_guide/)
-corresponding to the latest version of the framework.
+- **📝 Student Registration & Management**: Streamlined onboarding of new clinical students
+- **🗓️ Rotation Scheduling**: Automated scheduling system for clinical departments
+- **📊 Case Tracking**: Digital recording and verification of clinical cases
+- **📋 Evaluation System**: Comprehensive assessment tools for supervisors
+- **📱 Mobile-Responsive Interface**: Access from any device, anywhere
+- **📈 Performance Analytics**: Real-time insights into student progress
+- **🔔 Notification System**: Automated alerts for upcoming rotations and evaluations
 
-## Installation & updates
+## 💻 Technology Stack
 
-`composer create-project codeigniter4/appstarter` then `composer update` whenever
-there is a new release of the framework.
+This project is built with CodeIgniter 4, a powerful PHP framework that provides a solid foundation for rapid development of secure, high-performance applications.
 
-When updating, check the release notes to see if there are any changes you might need to apply
-to your `app` folder. The affected files can be copied or merged from
-`vendor/codeigniter4/framework/app`.
+- **Backend**: CodeIgniter 4
+- **Database**: MySQL
+- **Frontend**: Bootstrap 5, jQuery, Chart.js
+- **Authentication**: CI Shield
+- **API**: RESTful architecture
+- **Deployment**: Docker support
 
-## Setup
+## 🚀 Getting Started
 
-Copy `env` to `.env` and tailor for your app, specifically the baseURL
-and any database settings.
+### Prerequisites
 
-## Important Change with index.php
+- PHP 8.1 or higher
+- Composer
+- MySQL 5.7 or higher
+- Git
 
-`index.php` is no longer in the root of the project! It has been moved inside the *public* folder,
-for better security and separation of components.
+### Installation
 
-This means that you should configure your web server to "point" to your project's *public* folder, and
-not to the project root. A better practice would be to configure a virtual host to point there. A poor practice would be to point your web server to the project root and expect to enter *public/...*, as the rest of your logic and the
-framework are exposed.
+1. Clone the repository:
 
-**Please** read the user guide for a better explanation of how CI4 works!
+   ```bash
+   git clone https://github.com/unud-rspgm/coass-management-system.git
+   cd coass-management-system
+   ```
 
-## Repository Management
+2. Install dependencies:
 
-We use GitHub issues, in our main repository, to track **BUGS** and to track approved **DEVELOPMENT** work packages.
-We use our [forum](http://forum.codeigniter.com) to provide SUPPORT and to discuss
-FEATURE REQUESTS.
+   ```bash
+   composer install
+   ```
 
-This repository is a "distribution" one, built by our release preparation script.
-Problems with it can be raised on our forum, or as issues in the main repository.
+3. Configure your environment:
 
-## Server Requirements
+   ```bash
+   cp env .env
+   ```
 
-PHP version 8.1 or higher is required, with the following extensions installed:
+   Then edit the `.env` file with your database credentials and other configuration options.
 
-- [intl](http://php.net/manual/en/intl.requirements.php)
-- [mbstring](http://php.net/manual/en/mbstring.installation.php)
+4. Initialize the database:
 
-> [!WARNING]
-> - The end of life date for PHP 7.4 was November 28, 2022.
-> - The end of life date for PHP 8.0 was November 26, 2023.
-> - If you are still using PHP 7.4 or 8.0, you should upgrade immediately.
-> - The end of life date for PHP 8.1 will be December 31, 2025.
+   ```bash
+   php spark migrate
+   php spark db:seed InitialSetup
+   ```
 
-Additionally, make sure that the following extensions are enabled in your PHP:
+5. Start the development server:
 
-- json (enabled by default - don't turn it off)
-- [mysqlnd](http://php.net/manual/en/mysqlnd.install.php) if you plan to use MySQL
-- [libcurl](http://php.net/manual/en/curl.requirements.php) if you plan to use the HTTP\CURLRequest library
-<<<<<<< HEAD
->>>>>>> a60c07a (First commit)
-=======
->>>>>>> a60c07ad843b3c0f24fa52de7d334af4824af77c
+   ```bash
+   php spark serve
+   ```
+
+6. Visit `http://localhost:8080` in your browser!
+
+### Docker Installation (Alternative)
+
+```bash
+docker-compose up -d
+```
+
+## 📋 Project Structure
+
+```
+coass-management-system/
+├── app/                    # Application code
+│   ├── Config/             # Configuration files
+│   ├── Controllers/        # Controller classes
+│   ├── Models/             # Database models
+│   ├── Views/              # View templates
+│   └── Helpers/            # Helper functions
+├── public/                 # Publicly accessible files
+│   ├── assets/             # CSS, JS, and images
+│   └── index.php           # Application entry point
+├── writable/               # Logs, cache, and other writable data
+├── system/                 # CodeIgniter system files
+├── tests/                  # Test files
+├── .env                    # Environment configuration
+└── composer.json           # Composer dependencies
+```
+
+## 👥 User Roles
+
+1. **Administrator**: Full system access, user management, configuration
+2. **Supervisor**: Department heads who evaluate and approve student cases
+3. **Co-Assistant**: Dental students tracking their clinical experience
+4. **Academic Staff**: Monitoring student progress and generating reports
+
+## 📱 Interactive Features
+
+- **Interactive Dashboard**: Real-time visualizations of student progress
+- **Digital Case Forms**: Interactive forms with dynamic validation
+- **Discussion Forum**: Collaborative learning space for case discussions
+- **Knowledge Base**: Searchable repository of clinical guidelines
+- **Achievement System**: Gamified experience to motivate students
+
+## 🔒 Security Features
+
+- CSRF protection
+- XSS filtering
+- SQL injection prevention
+- Rate limiting
+- Role-based access control
+- Data encryption for sensitive information
+
+## 🌐 API Documentation
+
+The system includes a comprehensive API for integration with other university systems:
+
+```
+GET /api/students                 # List all students
+GET /api/students/{id}            # Get student details
+POST /api/students                # Create new student
+PUT /api/students/{id}            # Update student
+GET /api/rotations                # List rotations
+POST /api/cases                   # Submit new case
+GET /api/evaluations/{student_id} # Get evaluations
+```
+
+## 📊 Database Schema
+
+The core database includes the following main tables:
+
+- `users` - User authentication and profile information
+- `students` - Student-specific data
+- `departments` - Clinical departments
+- `rotations` - Scheduling data for student rotations
+- `cases` - Clinical cases recorded by students
+- `evaluations` - Assessment records from supervisors
+- `notifications` - System alerts and messages
+
+## 🤝 Contributing
+
+We welcome contributions from the university community! Please follow these steps:
+
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add some amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
+
+## 📞 Support
+
+For technical support, please contact:
+
+- Email: tuaji.bangau@gmail.com
+- Phone: +62 (361) 8736173
+- Help Desk: Room 301, RSPGM Building
+
+## 📜 License
+
+This project is proprietary and owned by Universitas Udayana. All rights reserved.
+
+## 🙏 Acknowledgements
+
+- Faculty of Dentistry, Universitas Udayana
+- RSPGM Administration Team
+- IT Development Team, Universitas Udayana
+- CodeIgniter Development Team

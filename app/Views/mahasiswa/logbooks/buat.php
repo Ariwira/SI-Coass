@@ -22,7 +22,7 @@
                             <select class="form-control" id="stase_id" name="stase_id" required>
                                 <option value="" disabled selected>Pilih Stase</option>
                                 <?php foreach ($stases as $stase): ?>
-                                    <option value="<?= $stase['id']; ?>"><?= $stase['name']; ?></option>
+                                    <option value="<?= $stase['stase_id']; ?>"><?= $stase['name']; ?></option>
                                 <?php endforeach; ?>
                             </select>
                         </div>
