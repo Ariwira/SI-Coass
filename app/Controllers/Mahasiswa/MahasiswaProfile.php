@@ -169,13 +169,13 @@ class MahasiswaProfile extends Controller
         // Ambil coass_id dari sesi
         $coassId = session()->get('coass_id');
         if (!$coassId) {
-            throw new \CodeIgniter\Exceptions\PageNotFoundException('Data tidak ditemukan');
+            return redirect()->back()->with('error', 'Data tidak ditemukan.');
         }
 
         // Mendapatkan data mahasiswa berdasarkan coass_id
         $student = $this->mahasiswaModel->where('coass_id', $coassId)->first();
         if (!$student) {
-            throw new \CodeIgniter\Exceptions\PageNotFoundException('Data tidak ditemukan');
+            return redirect()->back()->with('error', 'Data tidak ditemukan.');
         }
 
         $userId = $student['user_id'];
@@ -193,7 +193,10 @@ class MahasiswaProfile extends Controller
         ];
 
         if (!$this->validate($rules)) {
-            return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
+            // Simpan error di flashdata
+            session()->setFlashdata('errors', $this->validator->getErrors());
+            session()->setFlashdata('error', 'Gagal memperbarui password. Silakan coba lagi.');
+            return redirect()->back()->withInput();
         }
 
         // Update password
@@ -201,6 +204,6 @@ class MahasiswaProfile extends Controller
             'password' => password_hash($this->request->getPost('password'), PASSWORD_DEFAULT)
         ]);
 
-        return redirect()->to('mahasiswa/profil-mahasiswa')->with('success', 'Password berhasil diperbarui');
+        return redirect()->to('mahasiswa/profil-mahasiswa')->with('success', 'Password berhasil diperbarui.');
     }
 }

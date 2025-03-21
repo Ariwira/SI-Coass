@@ -52,12 +52,14 @@ class Auth extends Controller
         $db = \Config\Database::connect();
         $name = 'User';
         $coass_id = null;
+        $doctor_id = null;
 
         if ($user['role'] === 'Admin') {
             $name = 'Administrator';
         } elseif ($user['role'] === 'Dokter') {
             $query = $db->table('doctors')->where('user_id', $user['id'])->get()->getRow();
             $name = $query->name ?? 'Dokter';
+            $doctor_id = $query->doctor_id ?? null;
         } elseif ($user['role'] === 'Mahasiswa Coass') {
             $query = $db->table('mahasiswa_coass')->where('user_id', $user['id'])->get()->getRow();
             $name = $query->name ?? 'Mahasiswa';
@@ -69,7 +71,8 @@ class Auth extends Controller
             'email'     => $user['email'],
             'name'      => $name,
             'role'      => $user['role'],
-            'coass_id'  => $coass_id,   
+            'coass_id'  => $coass_id,
+            'doctor_id'  => $doctor_id,
             'logged_in' => true
         ]);
     }

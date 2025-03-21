@@ -74,7 +74,7 @@
                                                 name="nim"
                                                 value="<?= old('nim', $student['nim']) ?>"
                                                 placeholder="Masukkan NIM"
-                                                required disabled>
+                                                required>
                                             <?php if (session()->has('errors') && isset(session('errors')['nim'])): ?>
                                                 <div class="text-danger" style="font-size: 0.75rem;">
                                                     <?= session('errors')['nim'] ?>
@@ -91,14 +91,12 @@
                                                 name="email"
                                                 value="<?= old('email', $student['email']) ?>"
                                                 placeholder="contoh@domain.com"
-                                                required disabled>
+                                                required>
                                             <?php if (session()->has('errors') && isset(session('errors')['email'])): ?>
                                                 <div class="text-danger" style="font-size: 0.75rem;">
                                                     <?= session('errors')['email'] ?>
                                                 </div>
                                             <?php endif; ?>
-                                            <!-- Hidden input for email -->
-                                            <input type="hidden" name="email" value="<?= esc(old('email', $student['email'])) ?>">
                                         </div>
                                     </div>
                                 </div>

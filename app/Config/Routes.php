@@ -74,7 +74,11 @@ $routes->group('admin', ['filter' => 'auth:Admin'], function ($routes) {
 // Dokter Routes (protected by filter)
 $routes->group('dokter', ['filter' => 'auth:Dokter'], function ($routes) {
     $routes->get('dashboard', 'Dokter\Dashboard::index');
-    // Other dokter routes...
+
+    // Routes untuk Profil Dokter
+    $routes->get('profil-dokter', 'Dokter\DoctorProfile::index');
+    $routes->post('profil-dokter/update', 'Dokter\DoctorProfile::update');
+    $routes->post('profil-dokter/update-password', 'Dokter\DoctorProfile::updatePassword');
 });
 
 // Mahasiswa Routes (protected by filter)

@@ -17,6 +17,12 @@
                         <i class="fa-solid fa-circle-info me-2"></i><?= session()->getFlashdata('success') ?>
                     </div>
                 <?php endif; ?>
+
+                <?php if (session()->getFlashdata('error')): ?>
+                    <div class="alert alert-danger mx-4 mb-0 mt-3 py-3 text-white fw-bold fs-6">
+                        <i class="fa-solid fa-circle-exclamation me-2"></i><?= session()->getFlashdata('error') ?>
+                    </div>
+                <?php endif; ?>
                 <div class="card-body">
                     <form action="<?= base_url('mahasiswa/profil-mahasiswa/update') ?>" method="POST" enctype="multipart/form-data">
                         <?= csrf_field() ?>
@@ -314,11 +320,21 @@
                         <?= csrf_field() ?>
                         <div class="form-group mb-3">
                             <label for="password">Password Baru</label>
-                            <input type="password" name="password" class="form-control" required>
+                            <input type="password" name="password" class="form-control <?= (session()->has('errors') && isset(session('errors')['password'])) ? 'is-invalid' : '' ?>" required>
+                            <?php if (session()->has('errors') && isset(session('errors')['password'])): ?>
+                                <div class="text-danger" style="font-size: 0.75rem;">
+                                    <?= session('errors')['password'] ?>
+                                </div>
+                            <?php endif; ?>
                         </div>
                         <div class="form-group mb-3">
                             <label for="confirm_password">Konfirmasi Password</label>
-                            <input type="password" name="confirm_password" class="form-control" required>
+                            <input type="password" name="confirm_password" class="form-control <?= (session()->has('errors') && isset(session('errors')['confirm_password'])) ? 'is-invalid' : '' ?>" required>
+                            <?php if (session()->has('errors') && isset(session('errors')['confirm_password'])): ?>
+                                <div class="text-danger" style="font-size: 0.75rem;">
+                                    <?= session('errors')['confirm_password'] ?>
+                                </div>
+                            <?php endif; ?>
                         </div>
                         <button type="submit" class="btn bg-gradient-success">Ubah Password</button>
                     </form>
