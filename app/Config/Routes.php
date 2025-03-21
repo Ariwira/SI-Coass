@@ -89,4 +89,9 @@ $routes->group('mahasiswa', ['filter' => 'auth:Mahasiswa Coass'], function ($rou
     $routes->get('logbook/edit/(:num)', 'Mahasiswa\Logbook::edit/$1');
     $routes->post('logbook/update/(:num)', 'Mahasiswa\Logbook::update/$1');
     $routes->get('logbook/delete/(:num)', 'Mahasiswa\Logbook::delete/$1');
+    
+    // Routes untuk Stase
+    $routes->get('stase', 'Mahasiswa\Stase::index');
+    $routes->get('stase/detail/(:any)', 'Mahasiswa\Stase::detail/$1');
+    $routes->get('logbook/tambah/(:any)', 'Mahasiswa\Logbook::create/$1');
 });

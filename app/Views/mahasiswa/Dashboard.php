@@ -3,14 +3,25 @@
 <?= $this->section('content'); ?>
 <div class="container-fluid py-4">
     <!-- Main Content Card with Info Gradient -->
-    <div class="card bg-gradient-info shadow-lg border-0 mb-4">
-        <!-- Header -->
-        <div class="card-header bg-transparent border-0 pb-0">
-            <h4 class="text-white mb-0">
-                <i class="fas fa-user-graduate me-2"></i>
-                Profile Mahasiswa Coass
-            </h4>
+    <div class="card bg-gradient-info shadow-lg border-0 mb-4 position-relative" style="overflow: hidden;">
+        <div class="card-background" style="
+            background: url('<?= base_url(); ?>/assets/img/curved-images/white-curved.jpg') no-repeat center center;
+            background-size: cover;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0.3;
+            z-index: 0;">
         </div>
+
+    <div class="card-header bg-transparent border-0 pb-0 position-relative" style="z-index: 1;">
+        <h4 class="text-white mb-0">
+            <i class="fas fa-user-graduate me-2"></i>
+            Profile Mahasiswa Coass
+        </h4>
+    </div>
         
         <div class="card-body text-white">
             <div class="row">
