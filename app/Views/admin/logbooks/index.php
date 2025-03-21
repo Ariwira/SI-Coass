@@ -117,7 +117,7 @@
                         </table>
                     </div>
                     <div class="d-flex justify-content-center mt-4">
-                        <?= $pager->links('students', 'custom_pagination') ?> <!-- Ganti 'logbooks' menjadi 'students' -->
+                        <?= $pager->links('students', 'custom_pagination') ?>
                     </div>
 
                     <div class="px-4 py-2 text-center">

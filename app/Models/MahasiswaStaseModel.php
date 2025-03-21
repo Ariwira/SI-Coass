@@ -31,17 +31,39 @@ class MahasiswaStaseModel extends Model
      * @return array
      */
 
-    public function getStasesByCoassId($coassId)
+    public function getStasesByCoassId($coassId, $keyword = null, $perPage = 10, $currentPage = 1)
     {
-        return $this->select('mahasiswa_stase.stase_id, stase.name')
-                    ->join('stase', 'stase.stase_id = mahasiswa_stase.stase_id') // Use stase_id for the join
-                    ->where('mahasiswa_stase.coass_id', $coassId)
-                    ->findAll();
+        $builder = $this->select('mahasiswa_stase.stase_id, stase.name, stase.description, stase.department, stase.status, stase.duration_weeks, stase.start_date, stase.end_date, stase.doctor_id') // Include doctor_id
+            ->join('stase', 'stase.stase_id = mahasiswa_stase.stase_id')
+            ->where('mahasiswa_stase.coass_id', $coassId);
+
+        if ($keyword) {
+            $builder->groupStart()
+                ->like('stase.name', $keyword)
+                ->orLike('stase.description', $keyword)
+                ->orLike('stase.department', $keyword)
+                ->groupEnd();
+        }
+
+        return $builder->paginate($perPage, 'stases', $currentPage);
     }
 
-    public function getMahasiswaByStaseId($staseId)
+    public function getMahasiswaByStaseId($staseId, $keyword = null)
     {
-        return $this->where('stase_id', $staseId)->findAll();
+        $builder = $this->select('mahasiswa_coass.*, users.email') // Ambil kolom yang diperlukan
+            ->join('mahasiswa_coass', 'mahasiswa_coass.coass_id = mahasiswa_stase.coass_id')
+            ->join('users', 'users.id = mahasiswa_coass.user_id', 'left') // Gabungkan dengan tabel users
+            ->where('mahasiswa_stase.stase_id', $staseId);
+
+        if ($keyword) {
+            $builder->groupStart()
+                ->like('mahasiswa_coass.name', $keyword)
+                ->orLike('mahasiswa_coass.nim', $keyword)
+                ->orLike('mahasiswa_coass.university', $keyword)
+                ->groupEnd();
+        }
+
+        return $builder; // Kembalikan query builder
     }
 
     /**

@@ -39,4 +39,9 @@ class StaseModel extends Model
             ->join('doctors', 'doctors.doctor_id = stase.doctor_id')
             ->orderBy('stase.start_date', 'ASC');
     }
+
+    public function getDoctorById($doctor_id)
+    {
+        return $this->db->table('doctors')->where('doctor_id', $doctor_id)->get()->getRowArray();
+    }
 }

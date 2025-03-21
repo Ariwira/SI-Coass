@@ -179,7 +179,10 @@
 
                     <div class="px-4 py-2 text-center">
                         <p class="text-xs text-secondary mb-0">
-                            Menampilkan <?= count($mahasiswa) ?> dari <?= esc($pager->getTotal('mahasiswa')) ?> data mahasiswa
+                            Menampilkan <?= count($mahasiswa) ?> dari <?= $pager->getTotal('mahasiswa') ?> data mahasiswa
+                            <?php if (!empty($keyword)): ?>
+                                untuk pencarian "<?= $keyword ?>"
+                            <?php endif; ?>
                         </p>
                     </div>
                 </div>
