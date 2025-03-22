@@ -46,6 +46,7 @@
                                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Tanggal</th>
                                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Nama Stase</th>
                                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Deskripsi Kegiatan</th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Feedback</th>
                                     <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Status</th>
                                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 text-center ps-2">Aksi</th>
                                 </tr>
@@ -53,7 +54,7 @@
                             <tbody>
                                 <?php if (empty($logbooks)): ?>
                                     <tr>
-                                        <td colspan="5" class="text-center py-4">
+                                        <td colspan="6" class="text-center py-4">
                                             <p class="text-md mb-0">Tidak ada data logbook yang ditemukan</p>
                                             <?php if (!empty($keyword)): ?>
                                                 <p class="text-sm text-secondary mb-0">Coba kata kunci pencarian lain</p>
@@ -71,6 +72,9 @@
                                             </td>
                                             <td>
                                                 <p class="text-xs font-weight-bold mb-0"><?= $logbook['activity']; ?></p>
+                                            </td>
+                                            <td>
+                                                <p class="text-xs font-weight-bold mb-0"><?= !empty($logbook['feedback']) ? $logbook['feedback'] : '-'; ?></p>
                                             </td>
                                             <td class="align-middle text-center text-sm">
                                                 <?php
