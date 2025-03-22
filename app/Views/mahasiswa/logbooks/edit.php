@@ -9,9 +9,8 @@
                     <h5>Edit Logbook</h5>
                 </div>
                 <div class="card-body">
-                    <form action="<?= base_url('mahasiswa/logbook/update/' . $logbook['logbook_id']) ?>" method="POST">
+                    <form action="<?= base_url('mahasiswa/logbook/update/' . $encryptedID) ?>" method="POST">
                         <?= csrf_field(); ?>
-                        <input type="hidden" name="logbook_id" value="<?= $logbook['logbook_id']; ?>">                 
                         <input type="hidden" name="coass_id" value="<?= $logbook['coass_id']; ?>"> 
                         <input type="hidden" name="stase_id" value="<?= $logbook['stase_id']; ?>">
                         <div class="mb-3">

@@ -62,7 +62,11 @@
                                         </td>
                                     </tr>
                                 <?php else: ?>
-                                    <?php foreach ($logbooks as $logbook): ?>
+                                    <?php foreach ($logbooks as $logbook): 
+                                        // Enkripsi ID logbook
+                                        $encrypter = \Config\Services::encrypter();
+                                        $encryptedID = bin2hex($encrypter->encrypt($logbook['logbook_id']));
+                                    ?>
                                         <tr>
                                             <td class="ps-4">
                                                 <p class="text-xs font-weight-bold mb-0"><?= $logbook['date']; ?></p>
@@ -101,13 +105,13 @@
                                                     </button>
                                                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton<?= $logbook['logbook_id'] ?>">
                                                         <li>
-                                                            <a class="dropdown-item d-flex align-items-center" href="<?= base_url('mahasiswa/logbook/edit-logbook/' . $logbook['logbook_id']) ?>">
+                                                            <a class="dropdown-item d-flex align-items-center" href="<?= base_url('mahasiswa/logbook/edit-logbook/' . $encryptedID) ?>">
                                                                 <i class="fa-solid fa-edit me-2" style="width: 16px;"></i>
                                                                 <span>Edit</span>
                                                             </a>
                                                         </li>
                                                         <li>
-                                                            <a class="dropdown-item d-flex align-items-center text-danger" href="<?= base_url('mahasiswa/logbook/delete/' . $logbook['logbook_id']) ?>" onclick="return confirm('Apakah Anda yakin ingin menghapus logbook ini?');">
+                                                            <a class="dropdown-item d-flex align-items-center text-danger" href="<?= base_url('mahasiswa/logbook/delete/' . $encryptedID) ?>" onclick="return confirm('Apakah Anda yakin ingin menghapus logbook ini?');">
                                                                 <i class="fa-solid fa-trash me-2" style="width: 16px;"></i>
                                                                 <span>Hapus</span>
                                                             </a>

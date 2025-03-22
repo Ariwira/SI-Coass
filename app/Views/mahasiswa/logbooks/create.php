@@ -12,10 +12,8 @@
                     <form action="<?= base_url('mahasiswa/logbook/store') ?>" method="POST">
                         <?= csrf_field(); ?>
                         
-                        <div class="mb-3">
-                            <label for="coass_id" class="form-label">ID Coass</label>
-                            <input type="number" class="form-control" id="coass_id" name="coass_id" value="<?= session()->get('coass_id') ?>" required readonly>
-                        </div>
+                        <!-- Mengubah input coass_id menjadi hidden -->
+                        <input type="hidden" id="coass_id" name="coass_id" value="<?= session()->get('coass_id') ?>" required>
                         
                         <div class="mb-3">
                             <label for="stase_id" class="form-label">Pilih Stase</label>
