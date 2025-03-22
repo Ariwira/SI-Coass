@@ -2,28 +2,18 @@
 
 <?= $this->section('content'); ?>
 <div class="container-fluid py-4">
-    <!-- Main Content Card with Info Gradient -->
-    <div class="card bg-gradient-info shadow-lg border-0 mb-4 position-relative" style="overflow: hidden;">
-        <div class="card-background" style="
-            background: url('<?= base_url(); ?>/assets/img/curved-images/white-curved.jpg') no-repeat center center;
-            background-size: cover;
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            opacity: 0.3;
-            z-index: 0;">
-        </div>
-
-    <div class="card-header bg-transparent border-0 pb-0 position-relative" style="z-index: 1;">
-        <h4 class="text-white mb-0">
-            <i class="fas fa-user-graduate me-2"></i>
-            Profile Mahasiswa Coass
-        </h4>
-    </div>
+    <!-- Main Content Card with curved background like detail page -->
+    <div class="card mb-4 overflow-hidden position-relative border-radius-lg" style="background-image: url('<?= base_url(); ?>/assets/img/curved-images/white-curved.jpg'); background-size: cover;">
+        <span class="mask bg-gradient-info"></span>
         
-        <div class="card-body text-white">
+        <div class="card-header pb-0 d-flex justify-content-between align-items-center z-index-1 bg-transparent">
+            <h5 class="text-white">
+                <i class="fas fa-user-graduate me-2"></i>
+                Profile Mahasiswa Coass
+            </h5>
+        </div>
+        
+        <div class="card-body text-white z-index-1">
             <div class="row">
                 <!-- Profile Column -->
                 <div class="col-lg-4 mb-4 mb-lg-0">
@@ -49,7 +39,7 @@
                                 </a>
                             </div>
                         </div>
-                        <div class="contact-info ">
+                        <div class="contact-info mt-2">
                             <div class="d-grid gap-2">
                                 <a href="#" class="btn btn-sm bg-gradient-primary">
                                     <i class="fas fa-edit me-2 font-weight 500"></i>Tambah Logbook

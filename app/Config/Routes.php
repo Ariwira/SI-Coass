@@ -99,6 +99,10 @@ $routes->group('mahasiswa', ['filter' => 'auth:Mahasiswa Coass'], function ($rou
     $routes->get('stase/detail-stase/(:segment)', 'Mahasiswa\Stase::detail/$1');
     $routes->get('logbook/tambah/(:segment)', 'Mahasiswa\Logbook::create/$1');
 
+    // Routes untuk Penilaian
+    $routes->get('penilaian', 'Mahasiswa\Penilaian::index');
+    $routes->get('penilaian/detail/(:any)', 'Mahasiswa\Penilaian::detail/$1');
+
     // Routes untuk Profil Mahasiswa
     $routes->get('profil-mahasiswa', 'Mahasiswa\MahasiswaProfile::index');
     $routes->post('profil-mahasiswa/update', 'Mahasiswa\MahasiswaProfile::update');

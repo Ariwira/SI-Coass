@@ -37,6 +37,7 @@ class Logbook extends Controller
 
         // Kirim data ke view
         return view('mahasiswa/logbooks/index', [
+            'title' => 'Logbook | SI-COASS',
             'logbooks' => $logbooks,
             'pager' => $pager,
             'keyword' => $keyword
