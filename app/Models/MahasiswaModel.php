@@ -57,6 +57,22 @@ class MahasiswaModel extends Model
             ->findAll($limit);
     }
 
+    public function getStudentsByDoctor($doctor_id, $keyword = null, $perPage = 10)
+    {
+        $query = $this->select('mahasiswa_coass.*, users.email')
+            ->join('logbooks', 'logbooks.coass_id = mahasiswa_coass.coass_id')
+            ->join('users', 'users.id = mahasiswa_coass.user_id')
+            ->join('stase', 'stase.stase_id = logbooks.stase_id')
+            ->where('stase.doctor_id', $doctor_id)
+            ->groupBy('mahasiswa_coass.coass_id');
+
+        if (!empty($keyword)) {
+            $query->like('mahasiswa_coass.name', $keyword);
+        }
+
+        return $query->paginate($perPage, 'students');
+    }
+
     /**
      * Search students by name, nim, email, university
      */
@@ -69,5 +85,47 @@ class MahasiswaModel extends Model
             ->orLike('users.email', $keyword)
             ->orLike('mahasiswa_coass.university', $keyword)
             ->orderBy('mahasiswa_coass.name', 'ASC');
+    }
+
+    public function getMahasiswaByStase($staseID, $keyword = null)
+    {
+        $this->select('mahasiswa_coass.coass_id, mahasiswa_coass.name, mahasiswa_coass.nim, mahasiswa_coass.university, users.email')
+            ->join('mahasiswa_stase', 'mahasiswa_stase.coass_id = mahasiswa_coass.coass_id')
+            ->join('users', 'users.id = mahasiswa_coass.user_id', 'left')
+            ->where('mahasiswa_stase.stase_id', $staseID);
+
+        if ($keyword) {
+            $this->groupStart()
+                ->like('mahasiswa_coass.name', $keyword)
+                ->orLike('mahasiswa_coass.nim', $keyword)
+                ->orLike('mahasiswa_coass.university', $keyword)
+                ->orLike('users.email', $keyword)
+                ->groupEnd();
+        }
+
+        return $this->paginate(5, 'mahasiswa');
+    }
+
+    public function getStudentsByStaseWithUsers($staseID, $keyword = null)
+    {
+        $this->select('mahasiswa_coass.coass_id, mahasiswa_coass.name, mahasiswa_coass.nim, mahasiswa_coass.university, users.email')
+            ->join('mahasiswa_stase', 'mahasiswa_stase.coass_id = mahasiswa_coass.coass_id')
+            ->join('users', 'users.id = mahasiswa_coass.user_id', 'left')
+            ->where('mahasiswa_stase.stase_id', $staseID);
+
+        if ($keyword) {
+            $this->groupStart()
+                ->like('mahasiswa_coass.name', $keyword)
+                ->orLike('mahasiswa_coass.nim', $keyword)
+                ->orLike('mahasiswa_coass.university', $keyword)
+                ->groupEnd();
+        }
+
+        return $this->paginate(5, 'mahasiswa');
+    }
+
+    public function getAllMahasiswa()
+    {
+        return $this->findAll();
     }
 }

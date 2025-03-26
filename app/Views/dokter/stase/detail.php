@@ -54,6 +54,10 @@
             <div class="card mb-4">
                 <div class="card-header pb-0 d-flex justify-content-between align-items-center">
                     <h5>Daftar Mahasiswa</h5>
+
+                    <a class="btn bg-gradient-success" href="<?= base_url('dokter/stase/detail-stase/tambah-mahasiswa/' . $encryptedID) ?>">
+                        <i class="fa-solid fa-plus fa-lg me-2"></i> <span>Tambah Mahasiswa</span>
+                    </a>
                 </div>
                 <div class="card-body px-0 pt-0 pb-2">
                     <?php if (session()->getFlashdata('success')): ?>
@@ -64,15 +68,15 @@
 
                     <!-- Search Form -->
                     <div class="px-4 pt-3">
-                        <form action="<?= base_url('admin/penilaian/detail-penilaian/' . $encryptedID) ?>" method="GET" class="mb-3">
+                        <form action="<?= base_url('dokter/stase/detail-stase/' . $encryptedID) ?>" method="GET" class="mb-3">
                             <div class="position-relative">
                                 <i class="fas fa-search position-absolute top-50 start-0 translate-middle-y ms-3 text-muted"></i>
                                 <input type="text" class="form-control ps-5 pe-5"
                                     style="border-radius: 0.5rem;"
-                                    placeholder="Cari berdasarkan nama atau NIM..."
+                                    placeholder="Cari berdasarkan nama, NIM, atau universitas..."
                                     name="keyword" value="<?= $keyword ?? '' ?>">
                                 <?php if (!empty($keyword)): ?>
-                                    <a href="<?= base_url('admin/stase/detail-stase/' . $encryptedID) ?>"
+                                    <a href="<?= base_url('dokter/stase/detail-stase/' . $encryptedID) ?>"
                                         class="position-absolute top-50 end-0 translate-middle-y me-3 text-secondary"
                                         style="cursor: pointer; background: transparent; border: none;">
                                         <i class="fas fa-times"></i>
@@ -82,22 +86,21 @@
                         </form>
                     </div>
 
-                    <div class="table">
+                    <div class="table-responsive">
                         <table class="table align-items-center mb-0">
                             <thead>
                                 <tr>
                                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Nama </th>
                                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">NIM</th>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Tanggal Penilaian</th>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Nilai</th>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Keterangan</th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Universitas</th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Nomor Telepon</th>
                                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2 text-center" style="width: 140px;">Aksi</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <?php if (empty($mahasiswa)): ?>
                                     <tr>
-                                        <td colspan="6" class="text-center pt-6">
+                                        <td colspan="5" class="text-center pt-6">
                                             <p class="text-md mb-0">Tidak ada mahasiswa terdaftar dalam stase ini.</p>
                                         </td>
                                     </tr>
@@ -129,49 +132,16 @@
                                                 <p class="text-xs font-weight-bold mb-0"><?= esc($mhs['nim']) ?></p>
                                             </td>
                                             <td>
-                                                <p class="text-xs font-weight-bold mb-0">
-                                                    <?= isset($mhs['penilaian']['date']) && !empty($mhs['penilaian']['date']) ? esc($mhs['penilaian']['date']) : '-' ?>
-                                                </p>
+                                                <p class="text-xs font-weight-bold mb-0 text-wrap"><?= esc($mhs['university']) ?></p>
                                             </td>
                                             <td>
-                                                <p class="text-xs font-weight-bold mb-0">
-                                                    <?= isset($mhs['penilaian']['score']) && !empty($mhs['penilaian']['score']) ? esc($mhs['penilaian']['score']) : '-' ?>
-                                                </p>
+                                                <p class="text-xs font-weight-bold mb-0"><?= esc($mhs['phone']) ?></p>
                                             </td>
-                                            <td>
-                                                <p class="text-xs font-weight-bold mb-0 text-wrap">
-                                                    <?= isset($mhs['penilaian']['feedback']) && !empty($mhs['penilaian']['feedback']) ? esc($mhs['penilaian']['feedback']) : '-' ?>
-                                                </p>
-                                            </td>
-
-                                            <td class="pe-4 text-center position-relative">
-                                                <div class="dropdown">
-                                                    <button class="p-3" style="all: unset;" type="button" id="dropdownMenuButton<?= esc($mhs['coass_id']) ?>" data-bs-toggle="dropdown" aria-label="edit button" aria-expanded="false">
-                                                        <i class="fa-solid fa-ellipsis-vertical" style="width: 48px;"></i>
-                                                    </button>
-                                                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton<?= esc($mhs['coass_id']) ?>">
-                                                        <?php if ($mhs['penilaian']['score'] === '-'): ?>
-                                                            <li>
-                                                                <a class="dropdown-item d-flex align-items-center" href="<?= base_url("admin/penilaian/detail-penilaian/tambah-nilai/$encryptedID/{$mhs['encrypted_coass_id']}") ?>">
-                                                                    <i class="fa-solid fa-plus me-2" style="width: 16px;"></i> <span>Tambah Nilai</span>
-                                                                </a>
-                                                            </li>
-                                                        <?php else: ?>
-                                                            <li>
-                                                                <a class="dropdown-item d-flex align-items-center" href="<?= base_url("admin/penilaian/detail-penilaian/edit-nilai/$encryptedID/{$mhs['encrypted_coass_id']}") ?>">
-                                                                    <i class="fa-solid fa-edit me-2" style="width: 16px;"></i>
-                                                                    <span>Edit</span>
-                                                                </a>
-                                                            </li>
-                                                        <?php endif; ?>
-                                                        <li>
-                                                            <button class="dropdown-item d-flex align-items-center text-danger" data-bs-toggle="modal" data-bs-target="#deleteModal<?= esc($mhs['coass_id']) ?>">
-                                                                <i class="fa-solid fa-trash me-2" style="width: 16px;"></i>
-                                                                <span>Hapus</span>
-                                                            </button>
-                                                        </li>
-                                                    </ul>
-                                                </div>
+                                            <td class="text-center pe-4">
+                                                <!-- Tombol untuk memicu modal konfirmasi hapus -->
+                                                <button type="button" class="btn bg-gradient-danger mb-0" data-bs-toggle="modal" data-bs-target="#deleteModal<?= esc($mhs['coass_id']) ?>">
+                                                    <i class="fa-solid fa-trash me-2"></i> Hapus
+                                                </button>
                                             </td>
                                         </tr>
 
@@ -184,18 +154,21 @@
                                                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                                     </div>
                                                     <div class="modal-body">
-                                                        Apakah Anda yakin ingin menghapus nilai mahasiswa ini?
+                                                        Apakah Anda yakin ingin menghapus mahasiswa ini?
                                                     </div>
                                                     <div class="modal-footer">
                                                         <button type="button" class="btn bg-gradient-info" data-bs-dismiss="modal">Batal</button>
-                                                        <form action="<?= base_url("admin/penilaian/detail-penilaian/delete-nilai/" . esc($encryptedID) . "/" . esc($mhs['encrypted_coass_id'])) ?>" method="post">
+                                                        <form action="<?= base_url('dokter/stase/detail-stase/delete-mahasiswa') ?>" method="post">
                                                             <?= csrf_field() ?>
+                                                            <input type="hidden" name="stase_id" value="<?= esc($stase['stase_id']) ?>">
+                                                            <input type="hidden" name="coass_id" value="<?= esc($mhs['coass_id']) ?>">
                                                             <button type="submit" class="btn bg-gradient-danger">Hapus</button>
                                                         </form>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
+
                                     <?php endforeach; ?>
                                 <?php endif; ?>
                             </tbody>
@@ -207,7 +180,10 @@
 
                     <div class="px-4 py-2 text-center">
                         <p class="text-xs text-secondary mb-0">
-                            Menampilkan <?= count($mahasiswa) ?> dari <?= esc($pager->getTotal('mahasiswa')) ?> data mahasiswa
+                            Menampilkan <?= count($mahasiswa) ?> dari <?= $pager->getTotal('mahasiswa') ?> data mahasiswa
+                            <?php if (!empty($keyword)): ?>
+                                untuk pencarian "<?= esc($keyword) ?>"
+                            <?php endif; ?>
                         </p>
                     </div>
                 </div>
@@ -215,6 +191,4 @@
         </div>
     </div>
 </div>
-</div>
-
 <?= $this->endSection(); ?>

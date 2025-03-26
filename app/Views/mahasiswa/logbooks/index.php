@@ -62,7 +62,7 @@
                                         </td>
                                     </tr>
                                 <?php else: ?>
-                                    <?php foreach ($logbooks as $logbook): 
+                                    <?php foreach ($logbooks as $logbook):
                                         // Enkripsi ID logbook
                                         $encrypter = \Config\Services::encrypter();
                                         $encryptedID = bin2hex($encrypter->encrypt($logbook['logbook_id']));
@@ -111,15 +111,36 @@
                                                             </a>
                                                         </li>
                                                         <li>
-                                                            <a class="dropdown-item d-flex align-items-center text-danger" href="<?= base_url('mahasiswa/logbook/delete/' . $encryptedID) ?>" onclick="return confirm('Apakah Anda yakin ingin menghapus logbook ini?');">
+                                                            <button class="dropdown-item d-flex align-items-center text-danger" data-bs-toggle="modal" data-bs-target="#deleteModal<?= $encryptedID ?>">
                                                                 <i class="fa-solid fa-trash me-2" style="width: 16px;"></i>
                                                                 <span>Hapus</span>
-                                                            </a>
+                                                            </button>
                                                         </li>
                                                     </ul>
                                                 </div>
                                             </td>
                                         </tr>
+                                        <!-- Modal Konfirmasi Hapus -->
+                                        <div class="modal fade" id="deleteModal<?= $encryptedID ?>" tabindex="-1" aria-labelledby="deleteModalLabel<?= $encryptedID ?>" aria-hidden="true">
+                                            <div class="modal-dialog modal-dialog-centered" role="document">
+                                                <div class="modal-content bg-white">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="deleteModalLabel<?= $encryptedID ?>">Konfirmasi Hapus</h5>
+                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        Apakah Anda yakin ingin menghapus logbook ini?
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn bg-gradient-info" data-bs-dismiss="modal">Batal</button>
+                                                        <form action="<?= base_url('mahasiswa/logbook/delete-logbook/' . $encryptedID) ?>" method="POST">
+                                                            <?= csrf_field() ?>
+                                                            <button type="submit" class="btn bg-gradient-danger">Hapus</button>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                     <?php endforeach; ?>
                                 <?php endif; ?>
                             </tbody>

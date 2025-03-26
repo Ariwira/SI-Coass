@@ -53,13 +53,10 @@
             <div class="card mb-4 ">
                 <div class="card-header pb-0 d-flex justify-content-between align-items-center">
                     <h5>Daftar Logbook</h5>
-                    <a class="btn bg-gradient-success" href="<?= base_url('admin/logbook/tambah-logbook/' . $encryptedID) ?>" aria-label="tombol tambah logbook">
-                        <i class="fa-solid fa-plus fa-lg me-2"></i> <span>Tambah Logbook</span>
-                    </a>
                 </div>
                 <!-- Search Form -->
                 <div class="px-4 pt-3">
-                    <form action="<?= base_url('admin/logbook/detail-logbook/' . $encryptedID) ?>" method="GET" class="mb-3">
+                    <form action="<?= base_url('dokter/logbook/detail-logbook/' . $encryptedID) ?>" method="GET" class="mb-3">
                         <div class="position-relative">
                             <i class="fas fa-search position-absolute top-50 start-0 translate-middle-y ms-3 text-muted"></i>
                             <input type="text" class="form-control ps-5 pe-5"
@@ -67,7 +64,7 @@
                                 placeholder="Cari berdasarkan stase atau deskripsi..."
                                 name="keyword" value="<?= esc($keyword ?? '') ?>">
                             <?php if (!empty($keyword)): ?>
-                                <a href="<?= base_url('admin/logbook/detail-logbook/' . $encryptedID) ?>"
+                                <a href="<?= base_url('dokter/logbook/detail-logbook/' . $encryptedID) ?>"
                                     class="position-absolute top-50 end-0 translate-middle-y me-3 text-secondary"
                                     style="cursor: pointer; background: transparent; border: none;">
                                     <i class="fas fa-times"></i>
@@ -109,7 +106,6 @@
                                         <td>
                                             <p class="text-xs font-weight-bold mb-0"><?= esc($logbook['stase_name']) ?></p>
                                         </td>
-
                                         <td>
                                             <p class="text-xs font-weight-bold mb-0 text-wrap"><?= esc($logbook['activity']) ?></p>
                                         </td>
@@ -121,50 +117,13 @@
                                         <td class="pe-4">
                                             <p class="text-xs font-weight-bold mb-0 text-wrap"><?= esc($logbook['feedback']) ?></p>
                                         </td>
-                                        <td class="pe-4 text-center position-relative">
-                                            <div class="dropdown">
-                                                <button style="all: unset;" class="" type="button" id="dropdownMenuButton<?= $encryptedID ?>" data-bs-toggle="dropdown" aria-label="edit button" aria-expanded="false">
-                                                    <i class="fa-solid fa-ellipsis-vertical" style="width: 48px;"></i>
-                                                </button>
-                                                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton<?= $encryptedID ?>">
-                                                    <li>
-                                                        <a class="dropdown-item d-flex align-items-center" href="<?= base_url('admin/logbook/edit-logbook/' . $encryptedID); ?>">
-                                                            <i class="fa-solid fa-edit me-2" style="width: 16px;"></i>
-                                                            <span>Edit</span>
-                                                        </a>
-                                                    </li>
-                                                    <li>
-                                                        <button class="dropdown-item d-flex align-items-center text-danger" data-bs-toggle="modal" data-bs-target="#deleteModal<?= $encryptedID ?>">
-                                                            <i class="fa-solid fa-trash me-2" style="width: 16px;"></i>
-                                                            <span>Hapus</span>
-                                                        </button>
-                                                    </li>
-                                                </ul>
-                                            </div>
+                                        <td class="align-middle text-center pe-4">
+                                            <a class="text-secondary fw-bold text-sm" href="<?= base_url('dokter/logbook/verifikasi-logbook/' . esc($encryptedID)) ?>">
+                                                <i class="fa-solid fa-pen-to-square me-1" style="width: 16px;"></i> <span>Verifikasi</span>
+                                            </a>
                                         </td>
                                     </tr>
 
-                                    <!-- Modal Konfirmasi Hapus -->
-                                    <div class="modal fade" id="deleteModal<?= $encryptedID ?>" tabindex="-1" aria-labelledby="deleteModalLabel<?= $encryptedID ?>" aria-hidden="true">
-                                        <div class="modal-dialog modal-dialog-centered" role="document">
-                                            <div class="modal-content bg-white">
-                                                <div class="modal-header">
-                                                    <h5 class="modal-title" id="deleteModalLabel<?= $encryptedID ?>">Konfirmasi Hapus</h5>
-                                                    <button type="button" class="btn-close fa-solid fa-xmark text-dark" data-bs-dismiss="modal" aria-label="Close"></button>
-                                                </div>
-                                                <div class="modal-body">
-                                                    Apakah Anda yakin ingin menghapus logbook ini?
-                                                </div>
-                                                <div class="modal-footer">
-                                                    <button type="button" class="btn bg-gradient-info" data-bs-dismiss="modal">Batal</button>
-                                                    <form action="<?= base_url('admin/logbook/delete-logbook/' . $encryptedID); ?>" method="POST">
-                                                        <?= csrf_field() ?>
-                                                        <button type="submit" class="btn bg-gradient-danger">Hapus</button>
-                                                    </form>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
                                 <?php endforeach; ?>
                             <?php endif; ?>
                         </tbody>

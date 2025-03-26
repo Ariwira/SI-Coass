@@ -44,4 +44,18 @@ class StaseModel extends Model
     {
         return $this->db->table('doctors')->where('doctor_id', $doctor_id)->get()->getRowArray();
     }
+
+    public function getStasesByDoctor($doctorId, $keyword = null, $perPage = 10, $currentPage = 1)
+    {
+        $builder = $this->where('doctor_id', $doctorId);
+
+        if ($keyword) {
+            $builder->groupStart()
+                ->like('name', $keyword)
+                ->orLike('description', $keyword)
+                ->groupEnd();
+        }
+
+        return $builder->paginate($perPage, 'stases', $currentPage);
+    }
 }

@@ -21,7 +21,7 @@
                         </div>
                         <div class="text-white mb-3">
                             <div class="fw-bold text-sm">Departemen</div>
-                            <div class=""><?= esc($penilaian['department'] ?? '-') ?></div>
+                            <div class=""><?= esc($penilaian['department']) ?></div>
                         </div>
                     </div>
                     <div class="col-12 col-md-3 ps-md-2">
@@ -70,72 +70,72 @@
                     </div>
 
                     <?php if (!empty($penilaian['criteria'])): ?>
-                    <div class="row mt-4">
-                        <div class="col-12">
-                            <div class="card card-body border card-plain border-radius-lg">
-                                <h6 class="mb-3">Rincian Penilaian</h6>
-                                <div class="table-responsive">
-                                    <table class="table align-items-center mb-0">
-                                        <thead>
-                                            <tr>
-                                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Kriteria</th>
-                                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2 text-center">Nilai</th>
-                                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Catatan</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <?php foreach ($penilaian['criteria'] as $criteria): ?>
-                                            <tr>
-                                                <td>
-                                                    <div class="d-flex px-2 py-1">
-                                                        <div class="d-flex flex-column justify-content-center">
-                                                            <h6 class="mb-0 text-sm"><?= esc($criteria['name']) ?></h6>
-                                                            <p class="text-xs text-secondary mb-0"><?= esc($criteria['description'] ?? '') ?></p>
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                                <td class="text-center">
-                                                    <span class="badge bg-gradient-<?= $criteria['score'] >= 70 ? 'success' : 'warning' ?>"><?= esc($criteria['score']) ?></span>
-                                                </td>
-                                                <td>
-                                                    <p class="text-xs font-weight-bold mb-0"><?= esc($criteria['notes'] ?? '-') ?></p>
-                                                </td>
-                                            </tr>
-                                            <?php endforeach; ?>
-                                        </tbody>
-                                    </table>
+                        <div class="row mt-4">
+                            <div class="col-12">
+                                <div class="card card-body border card-plain border-radius-lg">
+                                    <h6 class="mb-3">Rincian Penilaian</h6>
+                                    <div class="table-responsive">
+                                        <table class="table align-items-center mb-0">
+                                            <thead>
+                                                <tr>
+                                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Kriteria</th>
+                                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2 text-center">Nilai</th>
+                                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Catatan</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <?php foreach ($penilaian['criteria'] as $criteria): ?>
+                                                    <tr>
+                                                        <td>
+                                                            <div class="d-flex px-2 py-1">
+                                                                <div class="d-flex flex-column justify-content-center">
+                                                                    <h6 class="mb-0 text-sm"><?= esc($criteria['name']) ?></h6>
+                                                                    <p class="text-xs text-secondary mb-0"><?= esc($criteria['description'] ?? '') ?></p>
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                        <td class="text-center">
+                                                            <span class="badge bg-gradient-<?= $criteria['score'] >= 70 ? 'success' : 'warning' ?>"><?= esc($criteria['score']) ?></span>
+                                                        </td>
+                                                        <td>
+                                                            <p class="text-xs font-weight-bold mb-0"><?= esc($criteria['notes'] ?? '-') ?></p>
+                                                        </td>
+                                                    </tr>
+                                                <?php endforeach; ?>
+                                            </tbody>
+                                        </table>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
                     <?php endif; ?>
 
                     <?php if (!empty($penilaian['attachments'])): ?>
-                    <div class="row mt-4">
-                        <div class="col-12">
-                            <div class="card card-body border card-plain border-radius-lg">
-                                <h6 class="mb-3">Lampiran</h6>
-                                <div class="row">
-                                    <?php foreach ($penilaian['attachments'] as $attachment): ?>
-                                    <div class="col-md-4 mb-3">
-                                        <div class="card card-body border-0 shadow-sm">
-                                            <div class="d-flex align-items-center">
-                                                <i class="fa-solid fa-file-pdf text-danger me-3 fa-2x"></i>
-                                                <div>
-                                                    <p class="text-xs font-weight-bold mb-0"><?= esc($attachment['name']) ?></p>
-                                                    <a href="<?= base_url('uploads/attachments/' . $attachment['file']) ?>" 
-                                                       class="text-xs text-primary" target="_blank">
-                                                        Lihat Dokumen
-                                                    </a>
+                        <div class="row mt-4">
+                            <div class="col-12">
+                                <div class="card card-body border card-plain border-radius-lg">
+                                    <h6 class="mb-3">Lampiran</h6>
+                                    <div class="row">
+                                        <?php foreach ($penilaian['attachments'] as $attachment): ?>
+                                            <div class="col-md-4 mb-3">
+                                                <div class="card card-body border-0 shadow-sm">
+                                                    <div class="d-flex align-items-center">
+                                                        <i class="fa-solid fa-file-pdf text-danger me-3 fa-2x"></i>
+                                                        <div>
+                                                            <p class="text-xs font-weight-bold mb-0"><?= esc($attachment['name']) ?></p>
+                                                            <a href="<?= base_url('uploads/attachments/' . $attachment['file']) ?>"
+                                                                class="text-xs text-primary" target="_blank">
+                                                                Lihat Dokumen
+                                                            </a>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
+                                        <?php endforeach; ?>
                                     </div>
-                                    <?php endforeach; ?>
                                 </div>
                             </div>
                         </div>
-                    </div>
                     <?php endif; ?>
 
                     <div class="d-flex justify-content-end mt-4">

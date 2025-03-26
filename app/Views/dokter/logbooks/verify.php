@@ -6,11 +6,11 @@
         <div class="col-12">
             <div class="card mb-4">
                 <div class="card-header pb-0 d-flex justify-content-between align-items-center">
-                    <h5>Edit Logbook</h5>
+                    <h5>Verifikasi Logbook</h5>
                 </div>
 
                 <div class="card-body px-0 pt-0 pb-2">
-                    <form action="<?= base_url('admin/logbook/update/' . $encryptedID) ?>" method="POST" class="mx-4">
+                    <form action="<?= base_url('dokter/logbook/update-verification/' . $encryptedID) ?>" method="POST" class="mx-4">
                         <?= csrf_field() ?>
 
                         <?php if (session()->getFlashdata('errors')): ?>
@@ -24,38 +24,28 @@
                             </div>
                         <?php endif; ?>
 
-                        <!-- Hidden input untuk coass_id -->
-                        <input type="hidden" name="coass_id" value="<?= esc($mahasiswa['coass_id']) ?>">
-
+                        <!-- Informasi Logbook (Tidak Bisa Diedit) -->
                         <div class="mb-3">
-                            <label for="stase_id" class="form-label">Stase</label>
-                            <select name="stase_id" id="stase_id" class="form-select" required>
-                                <option value="">Pilih Stase</option>
-                                <?php foreach ($stases as $stase): ?>
-                                    <option value="<?= $stase['stase_id'] ?>" <?= old('stase_id', $logbook['stase_id']) == $stase['stase_id'] ? 'selected' : '' ?>><?= $stase['name'] ?></option>
-                                <?php endforeach; ?>
-                            </select>
-                            <?php if (isset($validation) && $validation->getError('stase_id')): ?>
-                                <div class="text-danger"><?= $validation->getError('stase_id') ?></div>
-                            <?php endif; ?>
+                            <label class="form-label">Nama Mahasiswa</label>
+                            <input type="text" class="form-control" value="<?= esc($mahasiswa['name']) ?>" disabled>
                         </div>
 
                         <div class="mb-3">
-                            <label for="date" class="form-label">Tanggal</label>
-                            <input type="date" name="date" id="date" class="form-control" value="<?= old('date', $logbook['date']) ?>" required>
-                            <?php if (isset($validation) && $validation->getError('date')): ?>
-                                <div class="text-danger"><?= $validation->getError('date') ?></div>
-                            <?php endif; ?>
+                            <label class="form-label">Stase</label>
+                            <input type="text" class="form-control" value="<?= esc($logbook['stase_name']) ?>" disabled>
                         </div>
 
                         <div class="mb-3">
-                            <label for="activity" class="form-label">Aktivitas</label>
-                            <textarea name="activity" id="activity" class="form-control" required><?= old('activity', $logbook['activity']) ?></textarea>
-                            <?php if (isset($validation) && $validation->getError('activity')): ?>
-                                <div class="text-danger"><?= $validation->getError('activity') ?></div>
-                            <?php endif; ?>
+                            <label class="form-label">Tanggal</label>
+                            <input type="text" class="form-control" value="<?= esc($logbook['date']) ?>" disabled>
                         </div>
 
+                        <div class="mb-3">
+                            <label class="form-label">Aktivitas</label>
+                            <textarea class="form-control" disabled><?= esc($logbook['activity']) ?></textarea>
+                        </div>
+
+                        <!-- Input yang Bisa Diedit -->
                         <div class="mb-3">
                             <label for="status" class="form-label">Status</label>
                             <select name="status" id="status" class="form-select" required>
@@ -64,9 +54,6 @@
                                 <option value="Verified" <?= old('status', $logbook['status']) == 'Verified' ? 'selected' : '' ?>>Disetujui</option>
                                 <option value="Rejected" <?= old('status', $logbook['status']) == 'Rejected' ? 'selected' : '' ?>>Ditolak</option>
                             </select>
-                            <?php if (isset($validation) && $validation->getError('status')): ?>
-                                <div class="text-danger"><?= $validation->getError('status') ?></div>
-                            <?php endif; ?>
                         </div>
 
                         <div class="mb-3">
@@ -75,9 +62,7 @@
                         </div>
 
                         <button type="submit" class="btn bg-gradient-success">Simpan</button>
-                        <a href="<?= base_url('admin/logbook/detail-logbook/' . $encryptedCoassID) ?>" class="btn bg-gradient-info">
-                            Kembali
-                        </a>
+                        <a href="<?= base_url('dokter/logbook/detail-logbook/' . $encryptedCoassID) ?>" class="btn bg-gradient-info">Kembali</a>
                     </form>
                 </div>
             </div>

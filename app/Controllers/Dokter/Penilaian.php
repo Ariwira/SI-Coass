@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controllers\Admin;
+namespace App\Controllers\Dokter;
 
 use App\Models\MahasiswaModel;
 use App\Models\PenilaianModel;
@@ -27,13 +27,17 @@ class Penilaian extends Controller
 
     public function index()
     {
+        $doctorID = session()->get('doctor_id');
+        if (!$doctorID) {
+            return redirect()->to('/login')->with('error', 'Silakan login terlebih dahulu.');
+        }
+
         $keyword = $this->request->getGet('keyword');
-        $currentPage = $this->request->getGet('page_stases') ?? 1;
         $perPage = 10;
 
         $stases = !empty($keyword)
-            ? $this->staseModel->search($keyword)->paginate($perPage, 'stases')
-            : $this->staseModel->paginate($perPage, 'stases');
+            ? $this->staseModel->where('doctor_id', $doctorID)->search($keyword)->paginate($perPage, 'stases')
+            : $this->staseModel->where('doctor_id', $doctorID)->paginate($perPage, 'stases');
 
         foreach ($stases as &$stase) {
             $doctor = $this->doctorModel->getDoctorById($stase['doctor_id']);
@@ -42,24 +46,28 @@ class Penilaian extends Controller
         }
 
         $data = [
-            'title'         => 'Manajemen Penilaian | SI-COASS',
-            'stases'        => $stases,
-            'pager'         => $this->staseModel->pager,
-            'currentPage'   => $currentPage,
-            'keyword'       => $keyword
+            'title' => 'Penilaian | SI-COASS',
+            'stases' => $stases,
+            'pager' => $this->staseModel->pager,
+            'keyword' => $keyword
         ];
-        return view('admin/penilaian/index', $data);
+        return view('dokter/penilaian/index', $data);
     }
 
     public function detail($encryptedID)
     {
+        $doctorID = session()->get('doctor_id');
+        if (!$doctorID) {
+            return redirect()->to('/login')->with('error', 'Silakan login terlebih dahulu.');
+        }
+
         try {
             $id = $this->encrypter->decrypt(hex2bin($encryptedID));
         } catch (\Exception $e) {
             throw new \CodeIgniter\Exceptions\PageNotFoundException('Data tidak ditemukan');
         }
 
-        $stase = $this->staseModel->find($id);
+        $stase = $this->staseModel->where('stase_id', $id)->where('doctor_id', $doctorID)->first();
         if (!$stase) {
             throw new \CodeIgniter\Exceptions\PageNotFoundException('Data tidak ditemukan');
         }
@@ -69,10 +77,9 @@ class Penilaian extends Controller
 
         $keyword = $this->request->getGet('keyword');
         $mahasiswaData = $this->mahasiswaModel->getMahasiswaByStase($id, $keyword);
-        $allMahasiswa = $this->mahasiswaModel->getAllMahasiswa();
 
         foreach ($mahasiswaData as &$mhs) {
-            $penilaian = $this->penilaianModel->getPenilaian($id, $mhs['coass_id']);
+            $penilaian = $this->penilaianModel->getPenilaian($id, $mhs['coass_id'], $doctorID);
             $mhs['penilaian'] = $penilaian ? [
                 'date' => $penilaian['date'] ?? '-',
                 'score' => $penilaian['score'] ?? '-',
@@ -86,21 +93,24 @@ class Penilaian extends Controller
         }
 
         $data = [
-            'title' => 'Detail Stase | SI-COASS',
+            'title' => 'Detail Penilaian | SI-COASS',
             'stase' => $stase,
             'mahasiswa' => $mahasiswaData,
-            'allMahasiswa' => $allMahasiswa,
             'encryptedID' => $encryptedID,
             'keyword' => $keyword,
             'pager' => $this->mahasiswaModel->pager,
-
         ];
 
-        return view('admin/penilaian/detail', $data);
+        return view('dokter/penilaian/detail', $data);
     }
 
     public function create($encryptedID, $encryptedCoassID)
     {
+        $doctorID = session()->get('doctor_id');
+        if (!$doctorID) {
+            return redirect()->to('/login')->with('error', 'Silakan login terlebih dahulu.');
+        }
+
         try {
             $staseID = $this->encrypter->decrypt(hex2bin($encryptedID));
             $coassID = $this->encrypter->decrypt(hex2bin($encryptedCoassID));
@@ -108,7 +118,7 @@ class Penilaian extends Controller
             throw new \CodeIgniter\Exceptions\PageNotFoundException('Data tidak ditemukan');
         }
 
-        $stase = $this->staseModel->find($staseID);
+        $stase = $this->staseModel->where('stase_id', $staseID)->where('doctor_id', $doctorID)->first();
         if (!$stase) {
             throw new \CodeIgniter\Exceptions\PageNotFoundException('Stase tidak ditemukan');
         }
@@ -126,84 +136,16 @@ class Penilaian extends Controller
             'encryptedCoassID' => $encryptedCoassID,
         ];
 
-        return view('admin/penilaian/create', $data);
+        return view('dokter/penilaian/create', $data);
     }
 
     public function store($encryptedID, $encryptedCoassID)
     {
-        try {
-            $staseID = $this->encrypter->decrypt(hex2bin($encryptedID));
-            $coassID = $this->encrypter->decrypt(hex2bin($encryptedCoassID));
-        } catch (\Exception $e) {
-            return redirect()->back()->with('error', 'Data tidak valid.')->withInput();
+        $doctorID = session()->get('doctor_id');
+        if (!$doctorID) {
+            return redirect()->to('/login')->with('error', 'Silakan login terlebih dahulu.');
         }
 
-        $rules = [
-            'score' => 'required|integer|less_than_equal_to[100]'
-        ];
-
-        $customErrors = [
-            'score' => [
-                'required' => 'Nilai tidak boleh kosong.',
-                'integer' => 'Nilai harus berupa angka.',
-                'less_than_equal_to' => 'Nilai harus kurang dari atau sama dengan 100.'
-            ]
-        ];
-
-        if (!$this->validate($rules, $customErrors)) {
-            return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
-        }
-
-        $data = [
-            'stase_id' => $staseID,
-            'coass_id' => $coassID,
-            'date' => $this->request->getPost('date'),
-            'score' => $this->request->getPost('score'),
-            'feedback' => $this->request->getPost('feedback'),
-        ];
-
-        $stase = $this->staseModel->find($staseID);
-        if (!$stase) {
-            return redirect()->back()->with('error', 'Stase tidak ditemukan.')->withInput();
-        }
-
-        $data['doctor_id'] = $stase['doctor_id'];
-
-        if ($this->penilaianModel->insertPenilaian($data)) {
-            return redirect()->to(base_url("admin/penilaian/detail-penilaian/$encryptedID"))->with('success', 'Nilai berhasil ditambahkan.');
-        } else {
-            return redirect()->back()->withInput()->with('error', 'Gagal menambahkan nilai.');
-        }
-    }
-
-    public function edit($encryptedID, $encryptedCoassID)
-    {
-        try {
-            $staseID = $this->encrypter->decrypt(hex2bin($encryptedID));
-            $coassID = $this->encrypter->decrypt(hex2bin($encryptedCoassID));
-        } catch (\Exception $e) {
-            throw new \CodeIgniter\Exceptions\PageNotFoundException('Data tidak ditemukan');
-        }
-
-        $penilaian = $this->penilaianModel->getPenilaian($staseID, $coassID);
-        if (!$penilaian) {
-            throw new \CodeIgniter\Exceptions\PageNotFoundException('Penilaian tidak ditemukan');
-        }
-
-        $data = [
-            'title' => 'Edit Nilai | SI-COASS',
-            'stase' => $this->staseModel->find($staseID),
-            'mahasiswa' => $this->mahasiswaModel->find($coassID),
-            'penilaian' => $penilaian,
-            'encryptedID' => $encryptedID,
-            'encryptedCoassID' => $encryptedCoassID,
-        ];
-
-        return view('admin/penilaian/edit', $data);
-    }
-
-    public function update($encryptedID, $encryptedCoassID)
-    {
         try {
             $staseID = $this->encrypter->decrypt(hex2bin($encryptedID));
             $coassID = $this->encrypter->decrypt(hex2bin($encryptedCoassID));
@@ -220,18 +162,91 @@ class Penilaian extends Controller
         }
 
         $data = [
+            'stase_id' => $staseID,
+            'coass_id' => $coassID,
+            'doctor_id' => $doctorID,
             'date' => $this->request->getPost('date'),
             'score' => $this->request->getPost('score'),
             'feedback' => $this->request->getPost('feedback'),
         ];
 
-        $this->penilaianModel->updatePenilaian($staseID, $coassID, $data);
+        if ($this->penilaianModel->insert($data)) {
+            return redirect()->to(base_url("dokter/penilaian/detail-penilaian/$encryptedID"))->with('success', 'Nilai berhasil ditambahkan.');
+        }
+        return redirect()->back()->with('error', 'Gagal menambahkan nilai.');
+    }
 
-        return redirect()->to(base_url("admin/penilaian/detail-penilaian/$encryptedID"))->with('success', 'Nilai berhasil diperbarui.');
+    public function edit($encryptedID, $encryptedCoassID)
+    {
+        $doctorID = session()->get('doctor_id');
+        if (!$doctorID) {
+            return redirect()->to('/login')->with('error', 'Silakan login terlebih dahulu.');
+        }
+
+        try {
+            $staseID = $this->encrypter->decrypt(hex2bin($encryptedID));
+            $coassID = $this->encrypter->decrypt(hex2bin($encryptedCoassID));
+        } catch (\Exception $e) {
+            throw new \CodeIgniter\Exceptions\PageNotFoundException('Data tidak ditemukan');
+        }
+
+        $penilaian = $this->penilaianModel->where('stase_id', $staseID)
+            ->where('coass_id', $coassID)
+            ->where('doctor_id', $doctorID)
+            ->first();
+
+        if (!$penilaian) {
+            throw new \CodeIgniter\Exceptions\PageNotFoundException('Penilaian tidak ditemukan');
+        }
+
+        $data = [
+            'title' => 'Edit Nilai | SI-COASS',
+            'stase' => $this->staseModel->find($staseID),
+            'mahasiswa' => $this->mahasiswaModel->find($coassID),
+            'penilaian' => $penilaian,
+            'encryptedID' => $encryptedID,
+            'encryptedCoassID' => $encryptedCoassID,
+        ];
+
+        return view('dokter/penilaian/edit', $data);
+    }
+
+    public function update($encryptedID, $encryptedCoassID)
+    {
+        $doctorID = session()->get('doctor_id');
+        if (!$doctorID) {
+            return redirect()->to('/login')->with('error', 'Silakan login terlebih dahulu.');
+        }
+
+        try {
+            $staseID = $this->encrypter->decrypt(hex2bin($encryptedID));
+            $coassID = $this->encrypter->decrypt(hex2bin($encryptedCoassID));
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Data tidak valid.')->withInput();
+        }
+
+        $data = [
+            'date' => $this->request->getPost('date'),
+            'score' => $this->request->getPost('score'),
+            'feedback' => $this->request->getPost('feedback'),
+        ];
+
+        $this->penilaianModel->where('stase_id', $staseID)
+            ->where('coass_id', $coassID)
+            ->where('doctor_id', $doctorID)
+            ->set($data)
+            ->update();
+
+        return redirect()->to(base_url("dokter/penilaian/detail-penilaian/$encryptedID"))->with('success', 'Nilai berhasil diperbarui.');
     }
 
     public function delete($encryptedID, $encryptedCoassID)
     {
+        $doctorID = session()->get('doctor_id');
+        if (!$doctorID) {
+            return redirect()->to('/login')->with('error', 'Silakan login terlebih dahulu.');
+        }
+
         try {
             $staseID = $this->encrypter->decrypt(hex2bin($encryptedID));
             $coassID = $this->encrypter->decrypt(hex2bin($encryptedCoassID));
@@ -239,8 +254,11 @@ class Penilaian extends Controller
             return redirect()->back()->with('error', 'Data tidak valid.');
         }
 
-        $this->penilaianModel->deletePenilaian($staseID, $coassID);
+        $this->penilaianModel->where('stase_id', $staseID)
+            ->where('coass_id', $coassID)
+            ->where('doctor_id', $doctorID)
+            ->delete();
 
-        return redirect()->to(base_url("admin/penilaian/detail-penilaian/$encryptedID"))->with('success', 'Nilai berhasil dihapus.');
+        return redirect()->to(base_url("dokter/penilaian/detail-penilaian/$encryptedID"))->with('success', 'Nilai berhasil dihapus.');
     }
 }

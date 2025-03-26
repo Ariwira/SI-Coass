@@ -68,16 +68,23 @@
                                                 <p class="text-xs font-weight-bold mb-0 "><?= esc($item['doctor_name']); ?></p>
                                             </td>
                                             <td class="align-middle text-center text-sm">
-                                                <p class="text-xs font-weight-bold mb-0"><?= esc($item['date']); ?></p>
+                                                <p class="text-xs font-weight-bold mb-0">
+                                                    <?= isset($item['date']) && !empty($item['date']) ? esc($item['date']) : '-' ?>
+                                                </p>
                                             </td>
                                             <td>
-                                                <p class="text-xs font-weight-bold mb-0"><?= esc($item['score']); ?></p>
+                                                <p class="text-xs font-weight-bold mb-0">
+                                                    <?= isset($item['score']) && !empty($item['score']) ? esc($item['score']) : '-' ?>
+                                                </p>
                                             </td>
                                             <td>
-                                                <p class="text-xs font-weight-bold mb-0"><?= esc($item['feedback']); ?></p>
+                                                <p class="text-xs font-weight-bold mb-0">
+                                                    <?= isset($item['feedback']) && !empty($item['feedback']) ? esc($item['feedback']) : '-' ?>
+                                                </p>
                                             </td>
+
                                             <td class="align-middle text-center pe-4">
-                                                <a class="text-secondary fw-bold text-sm" href="<?= base_url('mahasiswa/penilaian/detail/' . bin2hex($encrypter->encrypt($item['penilaian_id']))) ?>">
+                                                <a class="text-secondary fw-bold text-sm" href="<?= base_url('mahasiswa/penilaian/detail-penilaian/' . bin2hex($encrypter->encrypt($item['penilaian_id']))) ?>">
                                                     <i class="fa-solid fa-eye me-1" style="width: 16px;"></i> <span>Detail</span>
                                                 </a>
                                             </td>

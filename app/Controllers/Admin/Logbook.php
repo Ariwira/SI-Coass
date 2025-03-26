@@ -6,11 +6,14 @@ use CodeIgniter\Controller;
 use App\Models\LogbookModel;
 use App\Models\MahasiswaModel;
 use App\Models\StaseModel;
+use App\Models\MahasiswaStaseModel;
+
 
 class Logbook extends Controller
 {
     protected $logbookModel;
     protected $mahasiswaModel;
+    protected $mahasiswaStaseModel;
     protected $staseModel;
     protected $encrypter;
     protected $db;
@@ -20,6 +23,7 @@ class Logbook extends Controller
         $this->logbookModel = new LogbookModel();
         $this->mahasiswaModel = new MahasiswaModel();
         $this->staseModel = new StaseModel();
+        $this->mahasiswaStaseModel = new MahasiswaStaseModel();
         $this->encrypter = \Config\Services::encrypter();
         $this->db = \Config\Database::connect();
     }
@@ -27,7 +31,7 @@ class Logbook extends Controller
     public function index()
     {
         $keyword = $this->request->getGet('keyword');
-        $currentPage = $this->request->getGet('page_students') ?? 1; // Ganti 'page_logbooks' menjadi 'page_students'
+        $currentPage = $this->request->getGet('page_students') ?? 1;
         $perPage = 10;
 
         // Ambil mahasiswa dengan pagination
@@ -41,28 +45,13 @@ class Logbook extends Controller
         $totals = [];
         foreach ($students as $student) {
             $coass_id = $student['coass_id'];
-
-            // Hitung total logbooks
-            $total_logbooks = $this->db->table('logbooks')->where('coass_id', $coass_id)->countAllResults();
-
-            // Hitung total yang diverifikasi
-            $total_verified = $this->db->table('logbooks')->where(['coass_id' => $coass_id, 'status' => 'Verified'])->countAllResults();
-
-            // Hitung total yang ditolak
-            $total_rejected = $this->db->table('logbooks')->where(['coass_id' => $coass_id, 'status' => 'Rejected'])->countAllResults();
-
-            // Simpan hasil ke dalam array
-            $totals[$coass_id] = [
-                'total_logbooks' => $total_logbooks,
-                'total_verified' => $total_verified,
-                'total_rejected' => $total_rejected,
-            ];
+            $totals[$coass_id] = $this->logbookModel->getTotals($coass_id);
         }
 
         $data = [
             'title'         => 'Manajemen Logbook | SI-COASS',
             'students'      => $students,
-            'pager'         => $this->mahasiswaModel->pager, // Pastikan ini menggunakan pager mahasiswa
+            'pager'         => $this->mahasiswaModel->pager,
             'currentPage'   => $currentPage,
             'keyword'       => $keyword,
             'totals'        => $totals
@@ -87,13 +76,13 @@ class Logbook extends Controller
         }
 
         // Ambil daftar stase untuk ditampilkan di dropdown
-        $stases = $this->staseModel->findAll();
+        $stases = $this->mahasiswaStaseModel->getStasesByCoassId($id);
 
         $data = [
             'title' => 'Tambah Logbook | SI-COASS',
-            'mahasiswa' => $mahasiswa, // Kirim data mahasiswa ke view
+            'mahasiswa' => $mahasiswa,
             'stases' => $stases,
-            'encryptedID' => $encryptedID, // Tambahkan encryptedID ke data
+            'encryptedID' => $encryptedID,
         ];
 
         return view('admin/logbooks/create', $data);
@@ -173,12 +162,15 @@ class Logbook extends Controller
 
         // Enkripsi ID logbook untuk digunakan di view
         $encryptedID = bin2hex($this->encrypter->encrypt($id));
+        $encryptedCoassID = bin2hex($this->encrypter->encrypt($mahasiswa['coass_id']));
+
 
         $data =  [
             'mahasiswa' => $mahasiswa,
             'stases' => $stases,
             'logbook' => $logbook,
             'encryptedID' => $encryptedID,
+            'encryptedCoassID' => $encryptedCoassID,
             'validation' => \Config\Services::validation(),
         ];
 
@@ -271,6 +263,7 @@ class Logbook extends Controller
         // Redirect ke halaman detail mahasiswa
         return redirect()->to('/admin/logbook/detail-logbook/' . $encryptedCoassID)->with('success', 'Logbook berhasil dihapus.');
     }
+
     public function detail($encryptedID)
     {
         // Dekripsi ID mahasiswa
@@ -287,37 +280,30 @@ class Logbook extends Controller
         }
 
         // Pagination untuk logbook
-        $currentPage = $this->request->getGet('page_logbooks') ?? 1; // Ambil halaman saat ini
         $perPage = 5; // Jumlah logbook per halaman
 
         // Ambil keyword dari query string
         $keyword = $this->request->getGet('keyword');
+        $logbooks = $this->logbookModel->getLogbooksByCoass($id, $perPage, $keyword);
 
-        // Ambil semua logbook yang terkait dengan mahasiswa dengan pagination
-        if (!empty($keyword)) {
-            $logbooks = $this->logbookModel->select('logbooks.*, stase.name as stase_name')
-                ->join('stase', 'stase.stase_id = logbooks.stase_id') // Bergabung dengan tabel stase
-                ->where('logbooks.coass_id', $id)
-                ->groupStart()
-                ->like('logbooks.activity', $keyword) // Filter berdasarkan aktivitas
-                ->orLike('stase.name', $keyword) // Filter berdasarkan nama stase
-                ->groupEnd()
-                ->orderBy('logbooks.updated_at', 'DESC') // Urutkan berdasarkan updated_at secara menurun
-                ->paginate($perPage, 'logbooks');
-        } else {
-            $logbooks = $this->logbookModel->where('coass_id', $id)
-                ->orderBy('updated_at', 'DESC') // Urutkan berdasarkan updated_at secara menurun
-                ->paginate($perPage, 'logbooks');
+        // Ambil semua stase yang terkait dengan logbooks
+        $stase_ids = array_column($logbooks, 'stase_id');
+        $staseList = [];
+
+        if (!empty($stase_ids)) {
+            $staseData = $this->staseModel->whereIn('stase_id', $stase_ids)->findAll();
+
+            // Buat array dengan key sebagai stase_id agar lebih cepat dicari
+            foreach ($staseData as $s) {
+                $staseList[$s['stase_id']] = $s['name'];
+            }
         }
 
-        // Ambil stase dari logbook pertama jika ada
-        $stase = null;
-        if (!empty($logbooks)) {
-            // Ambil stase_id dari logbook pertama
-            $stase_id = $logbooks[0]['stase_id'];
-            // Ambil data stase berdasarkan stase_id
-            $stase = $this->staseModel->find($stase_id);
+        // Tambahkan nama stase ke setiap logbook
+        foreach ($logbooks as &$logbook) {
+            $logbook['stase_name'] = $staseList[$logbook['stase_id']] ?? 'Tidak ada stase';
         }
+        unset($logbook); // Hindari referensi tak terduga
 
         $data = [
             'title' => 'Detail Mahasiswa | SI-COASS',
@@ -325,7 +311,6 @@ class Logbook extends Controller
             'logbooks' => $logbooks,
             'pager' => $this->logbookModel->pager, // Tambahkan pager untuk logbook
             'encryptedID' => $encryptedID,
-            'stase' => $stase, // Tambahkan data stase
             'keyword' => $keyword, // Tambahkan keyword ke data
         ];
 

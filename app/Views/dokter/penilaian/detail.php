@@ -64,7 +64,7 @@
 
                     <!-- Search Form -->
                     <div class="px-4 pt-3">
-                        <form action="<?= base_url('admin/penilaian/detail-penilaian/' . $encryptedID) ?>" method="GET" class="mb-3">
+                        <form action="<?= base_url('dokter/penilaian/detail-penilaian/' . $encryptedID) ?>" method="GET" class="mb-3">
                             <div class="position-relative">
                                 <i class="fas fa-search position-absolute top-50 start-0 translate-middle-y ms-3 text-muted"></i>
                                 <input type="text" class="form-control ps-5 pe-5"
@@ -72,7 +72,7 @@
                                     placeholder="Cari berdasarkan nama atau NIM..."
                                     name="keyword" value="<?= $keyword ?? '' ?>">
                                 <?php if (!empty($keyword)): ?>
-                                    <a href="<?= base_url('admin/stase/detail-stase/' . $encryptedID) ?>"
+                                    <a href="<?= base_url('dokter/penilaian/detail-penilaian/' . $encryptedID) ?>"
                                         class="position-absolute top-50 end-0 translate-middle-y me-3 text-secondary"
                                         style="cursor: pointer; background: transparent; border: none;">
                                         <i class="fas fa-times"></i>
@@ -152,13 +152,13 @@
                                                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton<?= esc($mhs['coass_id']) ?>">
                                                         <?php if ($mhs['penilaian']['score'] === '-'): ?>
                                                             <li>
-                                                                <a class="dropdown-item d-flex align-items-center" href="<?= base_url("admin/penilaian/detail-penilaian/tambah-nilai/$encryptedID/{$mhs['encrypted_coass_id']}") ?>">
+                                                                <a class="dropdown-item d-flex align-items-center" href="<?= base_url("dokter/penilaian/detail-penilaian/tambah-nilai/$encryptedID/{$mhs['encrypted_coass_id']}") ?>">
                                                                     <i class="fa-solid fa-plus me-2" style="width: 16px;"></i> <span>Tambah Nilai</span>
                                                                 </a>
                                                             </li>
                                                         <?php else: ?>
                                                             <li>
-                                                                <a class="dropdown-item d-flex align-items-center" href="<?= base_url("admin/penilaian/detail-penilaian/edit-nilai/$encryptedID/{$mhs['encrypted_coass_id']}") ?>">
+                                                                <a class="dropdown-item d-flex align-items-center" href="<?= base_url("dokter/penilaian/detail-penilaian/edit-nilai/$encryptedID/{$mhs['encrypted_coass_id']}") ?>">
                                                                     <i class="fa-solid fa-edit me-2" style="width: 16px;"></i>
                                                                     <span>Edit</span>
                                                                 </a>
@@ -188,7 +188,7 @@
                                                     </div>
                                                     <div class="modal-footer">
                                                         <button type="button" class="btn bg-gradient-info" data-bs-dismiss="modal">Batal</button>
-                                                        <form action="<?= base_url("admin/penilaian/detail-penilaian/delete-nilai/" . esc($encryptedID) . "/" . esc($mhs['encrypted_coass_id'])) ?>" method="post">
+                                                        <form action="<?= base_url("dokter/penilaian/detail-penilaian/delete-nilai/" . esc($encryptedID) . "/" . esc($mhs['encrypted_coass_id'])) ?>" method="post">
                                                             <?= csrf_field() ?>
                                                             <button type="submit" class="btn bg-gradient-danger">Hapus</button>
                                                         </form>
@@ -202,7 +202,7 @@
                         </table>
                     </div>
                     <div class="d-flex justify-content-center mt-4">
-                        <?= $pager->links('mahasiswa', 'custom_pagination') ?>
+                        <?= $pager->links('mahasiswaGroup', 'custom_pagination') ?>
                     </div>
 
                     <div class="px-4 py-2 text-center">

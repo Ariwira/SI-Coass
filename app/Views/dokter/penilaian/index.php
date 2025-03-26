@@ -18,7 +18,7 @@
 
                     <!-- Search Form -->
                     <div class="px-4 pt-3">
-                        <form action="<?= base_url('admin/penilaian') ?>" method="GET" class="mb-3">
+                        <form action="<?= base_url('dokter/penilaian') ?>" method="GET" class="mb-3">
                             <div class="position-relative">
                                 <i class="fas fa-search position-absolute top-50 start-0 translate-middle-y ms-3 text-muted"></i>
                                 <input type="text" class="form-control ps-5 pe-5"
@@ -26,7 +26,7 @@
                                     placeholder="Cari berdasarkan nama atau departemen..."
                                     name="keyword" value="<?= $keyword ?? '' ?>">
                                 <?php if (!empty($keyword)): ?>
-                                    <a href="<?= base_url('admin/penilaian') ?>"
+                                    <a href="<?= base_url('dokter/penilaian') ?>"
                                         class="position-absolute top-50 end-0 translate-middle-y me-3 text-secondary"
                                         style="cursor: pointer; background: transparent; border: none;">
                                         <i class="fas fa-times"></i>
@@ -103,7 +103,7 @@
                                                 <p class="text-xs font-weight-bold mb-0"><?= $stase['end_date']; ?></p>
                                             </td>
                                             <td class="align-middle text-center pe-4">
-                                                <a class="text-secondary fw-bold text-sm" href="<?= base_url('admin/penilaian/detail-penilaian/' . esc($encryptedID)) ?>">
+                                                <a class="text-secondary fw-bold text-sm" href="<?= base_url('dokter/penilaian/detail-penilaian/' . esc($encryptedID)) ?>">
                                                     <i class="fa-solid fa-eye me-1" style="width: 16px;"></i> <span>Detail</span>
                                                 </a>
                                             </td>
