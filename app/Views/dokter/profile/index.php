@@ -34,7 +34,7 @@
                             <!-- Photo Section -->
                             <div class="photo-container text-center position-relative" style="cursor: pointer; width: 200px; flex-shrink: 0; height: 100%;">
                                 <div style="position: relative; width: 100%; height: 0; padding-top: 133.33%; overflow: hidden;">
-                                    <img src="<?= $doctor['photo'] ? base_url('uploads/photos/' . $doctor['photo']) : base_url('path/to/default-placeholder.png') ?>"
+                                    <img src="<?= $doctor['photo'] ? base_url('uploads/photos/' . $doctor['photo']) : base_url('assets/img/default-avatar.jpg') ?>"
                                         id="profile-image"
                                         alt="Profile Photo"
                                         class="img-thumbnail"

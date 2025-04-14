@@ -19,10 +19,7 @@ class PenilaianModel extends Model
         'updated_at'
     ];
 
-
-
-
-    protected $useTimestamps = true; // Menggunakan created_at dan updated_at
+    protected $useTimestamps = true;
     public function getPenilaianByMahasiswa($coass_id, $keyword = null)
     {
         $builder = $this->select('penilaian.*, stase.name as stase_name, doctors.name as doctor_name')
@@ -71,7 +68,6 @@ class PenilaianModel extends Model
 
         $result = $query->first();
 
-        // Jika tidak ditemukan dengan doctor_id, coba tanpa doctor_id
         if (!$result && $doctorID !== null) {
             $result = $this->where('stase_id', $staseID)
                 ->where('coass_id', $coassID)
@@ -109,5 +105,15 @@ class PenilaianModel extends Model
         }
 
         return $this->delete();
+    }
+
+    public function getDetailPenilaianWithStaseAndDoctor($staseID, $coassID)
+    {
+        return $this->select('penilaian.*, s.name as stase_name, s.department, d.name as doctor_name, s.doctor_id')
+            ->join('stase s', 's.stase_id = penilaian.stase_id')
+            ->join('doctors d', 'd.doctor_id = s.doctor_id', 'left')
+            ->where('penilaian.stase_id', $staseID)
+            ->where('penilaian.coass_id', $coassID)
+            ->first();
     }
 }

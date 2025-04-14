@@ -150,7 +150,7 @@
                                                         <i class="fa-solid fa-ellipsis-vertical" style="width: 48px;"></i>
                                                     </button>
                                                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton<?= esc($mhs['coass_id']) ?>">
-                                                        <?php if ($mhs['penilaian']['score'] === '-'): ?>
+                                                        <?php if ($mhs['penilaian']['score'] === '-' || $mhs['penilaian']['score'] == 0): ?>
                                                             <li>
                                                                 <a class="dropdown-item d-flex align-items-center" href="<?= base_url("dokter/penilaian/detail-penilaian/tambah-nilai/$encryptedID/{$mhs['encrypted_coass_id']}") ?>">
                                                                     <i class="fa-solid fa-plus me-2" style="width: 16px;"></i> <span>Tambah Nilai</span>
@@ -164,6 +164,11 @@
                                                                 </a>
                                                             </li>
                                                         <?php endif; ?>
+                                                        <li>
+                                                            <a class="dropdown-item d-flex align-items-center" href="<?= base_url("dokter/penilaian/detail-penilaian/detail-nilai-mahasiswa/$encryptedID/{$mhs['encrypted_coass_id']}") ?>">
+                                                                <i class="fa-solid fa-eye me-2" style="width: 16px;"></i> <span>Detail</span>
+                                                            </a>
+                                                        </li>
                                                         <li>
                                                             <button class="dropdown-item d-flex align-items-center text-danger" data-bs-toggle="modal" data-bs-target="#deleteModal<?= esc($mhs['coass_id']) ?>">
                                                                 <i class="fa-solid fa-trash me-2" style="width: 16px;"></i>

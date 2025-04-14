@@ -4,6 +4,7 @@ namespace App\Controllers\Admin;
 
 use App\Models\MahasiswaModel;
 use App\Models\PenilaianModel;
+use App\Models\PenilaianHistoryModel;
 use App\Models\StaseModel;
 use App\Models\DoctorModel;
 use CodeIgniter\Controller;
@@ -11,6 +12,7 @@ use CodeIgniter\Controller;
 class Penilaian extends Controller
 {
     protected $penilaianModel;
+    protected $penilaianHistoryModel;
     protected $mahasiswaModel;
     protected $doctorModel;
     protected $staseModel;
@@ -19,6 +21,7 @@ class Penilaian extends Controller
     public function __construct()
     {
         $this->penilaianModel = new PenilaianModel();
+        $this->penilaianHistoryModel = new PenilaianHistoryModel();
         $this->mahasiswaModel = new MahasiswaModel();
         $this->doctorModel = new DoctorModel();
         $this->staseModel = new StaseModel();
@@ -170,6 +173,19 @@ class Penilaian extends Controller
         $data['doctor_id'] = $stase['doctor_id'];
 
         if ($this->penilaianModel->insertPenilaian($data)) {
+            // Tambahkan riwayat penilaian
+            $historyData = [
+                'penilaian_id' => $this->penilaianModel->insertID(), // Ambil ID penilaian yang baru saja ditambahkan
+                'user_id' => session()->get('id'), // Ambil ID pengguna yang sedang login
+                'old_score' => null, // Tidak ada nilai lama saat membuat
+                'new_score' => $data['score'],
+                'old_feedback' => null, // Tidak ada feedback lama saat membuat
+                'new_feedback' => $data['feedback'],
+                'action' => 'create', // Tindakan yang dilakukan
+                'created_at' => date('Y-m-d H:i:s'),
+            ];
+            $this->penilaianHistoryModel->insert($historyData);
+
             return redirect()->to(base_url("admin/penilaian/detail-penilaian/$encryptedID"))->with('success', 'Nilai berhasil ditambahkan.');
         } else {
             return redirect()->back()->withInput()->with('error', 'Gagal menambahkan nilai.');
@@ -219,6 +235,12 @@ class Penilaian extends Controller
             return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
         }
 
+        // Ambil penilaian yang ada untuk mendapatkan nilai lama
+        $penilaian = $this->penilaianModel->getPenilaian($staseID, $coassID);
+        if (!$penilaian) {
+            return redirect()->back()->with('error', 'Penilaian tidak ditemukan.')->withInput();
+        }
+
         $data = [
             'date' => $this->request->getPost('date'),
             'score' => $this->request->getPost('score'),
@@ -226,6 +248,19 @@ class Penilaian extends Controller
         ];
 
         $this->penilaianModel->updatePenilaian($staseID, $coassID, $data);
+
+        // Tambahkan riwayat penilaian
+        $historyData = [
+            'penilaian_id' => $penilaian['penilaian_id'], // ID penilaian yang diperbarui
+            'user_id' => session()->get('id'), // ID pengguna yang sedang login
+            'old_score' => $penilaian['score'], // Nilai lama
+            'new_score' => $data['score'], // Nilai baru
+            'old_feedback' => $penilaian['feedback'], // Feedback lama
+            'new_feedback' => $data['feedback'], // Feedback baru
+            'action' => 'update', // Tindakan yang dilakukan
+            'created_at' => date('Y-m-d H:i:s'),
+        ];
+        $this->penilaianHistoryModel->insert($historyData);
 
         return redirect()->to(base_url("admin/penilaian/detail-penilaian/$encryptedID"))->with('success', 'Nilai berhasil diperbarui.');
     }
@@ -239,8 +274,69 @@ class Penilaian extends Controller
             return redirect()->back()->with('error', 'Data tidak valid.');
         }
 
-        $this->penilaianModel->deletePenilaian($staseID, $coassID);
+        // Ambil penilaian yang ada untuk mendapatkan informasi sebelum dihapus
+        $penilaian = $this->penilaianModel->getPenilaian($staseID, $coassID);
+        if (!$penilaian) {
+            return redirect()->back()->with('error', 'Penilaian tidak ditemukan.');
+        }
+
+        // Simpan riwayat sebelum menghapus penilaian
+        $historyData = [
+            'penilaian_id' => $penilaian['penilaian_id'], // ID penilaian yang dihapus
+            'user_id' => session()->get('id'), // ID pengguna yang sedang login
+            'old_score' => $penilaian['score'], // Nilai lama
+            'new_score' => null, // Tidak ada nilai baru saat dihapus
+            'old_feedback' => $penilaian['feedback'], // Feedback lama
+            'new_feedback' => null, // Tidak ada feedback baru saat dihapus
+            'action' => 'delete', // Tindakan yang dilakukan
+            'created_at' => date('Y-m-d H:i:s'),
+        ];
+        $this->penilaianHistoryModel->insert($historyData);
+
+        // Hapus nilai dan feedback dari penilaian tanpa menghapus record
+        $this->penilaianModel->update($penilaian['penilaian_id'], [
+            'score' => null,
+            'feedback' => null,
+        ]);
 
         return redirect()->to(base_url("admin/penilaian/detail-penilaian/$encryptedID"))->with('success', 'Nilai berhasil dihapus.');
+    }
+
+
+    public function detailNilaiMahasiswa($encryptedID, $encryptedCoassID)
+    {
+        try {
+            $staseID = $this->encrypter->decrypt(hex2bin($encryptedID));
+            $coassID = $this->encrypter->decrypt(hex2bin($encryptedCoassID));
+        } catch (\Exception $e) {
+            throw new \CodeIgniter\Exceptions\PageNotFoundException('Data tidak ditemukan');
+        }
+
+        // Ambil data penilaian dan relasi dari model
+        $penilaian = $this->penilaianModel->getDetailPenilaianWithStaseAndDoctor($staseID, $coassID);
+
+        // Default nilai jika tidak ditemukan
+        $penilaianData = [
+            'date' => $penilaian['date'] ?? '-',
+            'score' => $penilaian['score'] ?? '-',
+            'feedback' => $penilaian['feedback'] ?? '-',
+            'stase_name' => $penilaian['stase_name'] ?? 'Stase tidak ditemukan',
+            'doctor_name' => $penilaian['doctor_name'] ?? 'Dokter tidak ditemukan',
+            'department' => $penilaian['department'] ?? 'Departemen tidak ditemukan',
+        ];
+
+        // Ambil riwayat dari model
+        $penilaianHistoryModel = new PenilaianHistoryModel();
+        $history = $penilaianHistoryModel->getHistoryWithUserNames($penilaian['penilaian_id'] ?? null);
+
+        $data = [
+            'title' => 'Detail Penilaian Mahasiswa | SI-COASS',
+            'penilaian' => $penilaianData,
+            'history' => $history,
+            'encryptedID' => $encryptedID,
+            'encryptedCoassID' => $encryptedCoassID,
+        ];
+
+        return view('admin/penilaian/detail_nilai_mahasiswa', $data);
     }
 }

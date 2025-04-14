@@ -32,7 +32,6 @@ $routes->group('admin', ['filter' => 'auth:Admin'], function ($routes) {
     $routes->get('dokter', 'Admin\Doctor::index');
     $routes->get('dokter/tambah-dokter', 'Admin\Doctor::create');
     $routes->post('dokter/store', 'Admin\Doctor::store');
-    // $routes->get('dokter/edit-dokter/(:segment)', 'Admin\Doctor::edit/$1');
     $routes->post('dokter/update/(:segment)', 'Admin\Doctor::update/$1');
     $routes->post('dokter/delete-dokter/(:segment)', 'Admin\Doctor::delete/$1');
     $routes->get('dokter/detail-dokter/(:segment)', 'Admin\Doctor::detail/$1');
@@ -66,6 +65,7 @@ $routes->group('admin', ['filter' => 'auth:Admin'], function ($routes) {
     $routes->get('penilaian/detail-penilaian/tambah-nilai/(:segment)/(:segment)', 'Admin\Penilaian::create/$1/$2');
     $routes->post('penilaian/detail-penilaian/store/(:segment)/(:segment)', 'Admin\Penilaian::store/$1/$2');
     $routes->get('penilaian/detail-penilaian/edit-nilai/(:segment)/(:segment)', 'Admin\Penilaian::edit/$1/$2');
+    $routes->get('penilaian/detail-penilaian/detail-nilai-mahasiswa/(:segment)/(:segment)', 'Admin\Penilaian::detailNilaiMahasiswa/$1/$2');
     $routes->post('penilaian/detail-penilaian/update/(:segment)/(:segment)', 'Admin\Penilaian::update/$1/$2');
     $routes->post('penilaian/detail-penilaian/delete-nilai/(:segment)/(:segment)', 'Admin\Penilaian::delete/$1/$2');
 });
@@ -99,6 +99,7 @@ $routes->group('dokter', ['filter' => 'auth:Dokter'], function ($routes) {
     $routes->get('penilaian/detail-penilaian/tambah-nilai/(:segment)/(:segment)', 'Dokter\Penilaian::create/$1/$2');
     $routes->post('penilaian/detail-penilaian/store/(:segment)/(:segment)', 'Dokter\Penilaian::store/$1/$2');
     $routes->get('penilaian/detail-penilaian/edit-nilai/(:segment)/(:segment)', 'Dokter\Penilaian::edit/$1/$2');
+    $routes->get('penilaian/detail-penilaian/detail-nilai-mahasiswa/(:segment)/(:segment)', 'Dokter\Penilaian::detailNilaiMahasiswa/$1/$2');
     $routes->post('penilaian/detail-penilaian/update/(:segment)/(:segment)', 'Dokter\Penilaian::update/$1/$2');
     $routes->post('penilaian/detail-penilaian/delete-nilai/(:segment)/(:segment)', 'Dokter\Penilaian::delete/$1/$2');
 
